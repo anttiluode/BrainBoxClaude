@@ -95,3 +95,23 @@ def nnls_safe(A, y):
         return nnls(A, y, maxiter=50 * A.shape[1])[0]
     except RuntimeError:
         return np.clip(np.linalg.lstsq(A, y, rcond=None)[0], 0, None)
+
+
+def conductances(med: Medium) -> np.ndarray:
+    """Edge conductance matrix G (symmetric, zero diagonal) recovered from L."""
+    G = -med.L.copy()
+    np.fill_diagonal(G, 0.0)
+    return G
+
+
+def from_conductances(G, macro, sub, leak=1e-4) -> Medium:
+    L = np.diag(G.sum(1)) - G + leak * np.eye(G.shape[0])
+    lam, phi = sl.eigh(L)
+    return Medium(L, macro, sub, lam, phi)
+
+
+def response(med: Medium, src: int, dst, ts) -> np.ndarray:
+    """Voltage at nodes `dst` (array) after a unit pulse at `src`: shape (len(dst), len(ts))."""
+    dst = np.atleast_1d(dst)
+    w = med.phi[dst, :] * med.phi[src, :][None, :]
+    return w @ np.exp(-np.outer(med.lam, ts))

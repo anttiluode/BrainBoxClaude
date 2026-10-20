@@ -101,6 +101,48 @@ costs 15–35 points in the good band — jitter matters relative to the time ga
 **My pre-stated criterion was wrong:** I said the time gap must exceed the soma's slow smear (~290 t);
 gating already works at ~40 t because the decoder uses trace shape, not only separation.
 
+### G3 — content lives in blocks, address lives in bridges · **PASS (double dissociation)**
+`gates/g3_content_vs_address.py` · chain medium, 6 × 4 × 8 · 5 seeds · every read-out decoded with
+**stale** templates learned before drift (a reader that re-learns nothing)
+
+Content of a sub-block = its local fast fingerprint (pulse at its entry node, its own 8 nodes, t ≤ 3), read
+locally. Address = (i) its soma late-trace signature (G0 read-out, sub-block level) and (ii) its macro-block's
+phase under the pacemaker drive (G2 read-out). Drift = log-normal multiplicative noise exp(s·ξ) on ONE edge
+class at a time. Pre-stated prediction: a double dissociation.
+
+| drift (s = 1.0) | content ID | address ID (sub) | phase ID (macro) | phase shift |
+|---|---|---|---|---|
+| none (baseline) | 1.00 | 0.58 | 1.00 | 0° |
+| **inside blocks** | **0.47** (0.17–0.67) | 0.60 (0.56–0.68) | 1.00 | 0.1° |
+| **bridges** | 0.92 (0.88–0.96) | **0.18** (0.15–0.21) | **0.40** | 21° |
+
+At s = 0.6: in-block → content 0.73, address 0.59 · bridge → content 0.98, address 0.25.
+In-block drift does not move the address at all (centroid drift ratio 0.004); bridge drift leaves content
+mostly intact (some leak at large drift: bridges also load the block). Ranges are min–max over seeds.
+
+### G3b — which conserved quantity protects the address · **PASS (3 of 3 predictions)**
+Same harness, bridge drift, then one homeostat:
+
+| bridge drift s = 1.0 | address ID (sub) | phase ID (macro) | phase shift |
+|---|---|---|---|
+| none | 0.19 | 0.47 | 21.0° |
+| **interface-total** (each sub-block-pair keeps its total bridge conductance) | **0.57** (0.48–0.62) | **1.00** | 0.1° |
+| macro-interface (only macro-pair totals kept) | 0.37 | **1.00** | 0.7° |
+| per-node synaptic scaling (classic; control) | 0.19 | 0.51 | 19.3° |
+
+- **Interface totals are the conserved quantity.** Individual bridges can drift by a factor of e either way;
+  as long as each interface keeps its total, the address survives. This is the correct version of this
+  morning's "grid changes but the thing stays the same": the (approximate) nullspace of the address map is
+  *redistribution inside an interface*.
+- **Resolution follows the homeostat:** conserving only macro-pair totals protects the macro/phase address
+  but not the sub-block address — the protected digit is exactly the tier whose totals are conserved.
+- **Classic per-node scaling does nothing for the address** — bridges are too small a share of a node's total
+  conductance for degree conservation to see them.
+- Not perfect: at s = 1.0 the interface homeostat recovers 0.48–0.62 vs a 0.54–0.64 baseline.
+  Redistribution inside an interface is invisible only to first order.
+- Honest limit: the interface homeostat needs each block to sense its total coupling to each neighbour.
+  That is local to the interface, not to a single synapse. Whether biology has such a sensor is not tested here.
+
 ## Ledger — corrections made on the way (kept on purpose)
 
 1. The morning scratch run reported 83% / 75% (macro / sub). It trained and tested the decoder on the same
@@ -121,9 +163,12 @@ gating already works at ~40 t because the decoder uses trace shape, not only sep
 - Slow phase as a slot address (PAC): Lisman & Jensen, theta–gamma code.
 - One-point read-out losing interior information: the Calderón problem / EIT.
 
-What is not obviously in that list: the coupling of **two plasticities with two meanings** —
-content written inside blocks, addresses written in the bridges — and that bridge topology (chain vs
-all-to-all) is what decides whether a single pacemaker can turn the address into time. That is G3.
+What is not obviously in that list: **two plasticities with two meanings** in one passive medium —
+content written inside blocks, addresses written in the bridges (G3), the *interface total* as the
+conserved quantity that protects addresses while classic per-node scaling does not (G3b), and bridge
+topology (chain vs all-to-all) deciding whether a single pacemaker can turn the address into time (G2).
+Synaptic scaling, homeostatic plasticity and coarse-graining are all old; this specific split has not
+been checked against the literature beyond this list — treat as unverified novelty.
 
 ## What this means for dynamic AI (claim size: small)
 
@@ -131,13 +176,14 @@ all-to-all) is what decides whether a single pacemaker can turn the address into
   only reaches ~#timescales dimensions of it.
 - A slow rhythm through a *chain-like* bridge topology converts address into firing time, and in a band of
   rhythm frequencies that conversion pays for itself in throughput.
-- Design rule to test next: **write memories inside blocks, keep bridges stable.** Bridge drift should
-  scramble *where* things are while leaving *what* intact.
+- Design rule, now measured (G3): **write memories inside blocks, keep bridges stable.** Bridge drift
+  scrambles *where* things are while leaving *what* intact, and vice versa.
+- Stability rule (G3b): protect **interface totals**, not individual weights and not per-unit totals.
+  For a dynamic AI this suggests a cheap guard: let block-to-block weights wander, but renormalize each
+  block-pair's total coupling. That is a testable continual-learning rule, not yet tested on a learning task.
 
 ## Next gates
 
-- **G3** — content vs address writes. Plasticity inside blocks vs on bridges; drift the bridges with and
-  without a homeostatic rule; measure "address scrambled" vs "content intact" separately.
 - **G4** — the honest discriminator: does a geometry-derived address beat a *learned* positional code in a
   matched-cost RNN / fast-weight model on a K-simultaneous recall task?
 
@@ -149,6 +195,7 @@ gates/g0_tiers.py       G0
 gates/g1_superposition.py
 gates/g2_pac.py
 gates/g2b_throughput.py
+gates/g3_content_vs_address.py   G3 + G3b
 results/*.json          raw numbers for every gate
 ```
 

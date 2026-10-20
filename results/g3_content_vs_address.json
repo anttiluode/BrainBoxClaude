@@ -1,0 +1,1254 @@
+{
+ "config": {
+  "M": 6,
+  "S": 4,
+  "n": 8,
+  "drift": [
+   0.1,
+   0.3,
+   0.6,
+   1.0
+  ],
+  "omega": 0.01,
+  "noise": 0.01
+ },
+ "seeds": [
+  {
+   "seed": 0,
+   "baseline": {
+    "content_id": 1.0,
+    "content_drift_ratio": 0.0,
+    "address_sub_id": 0.5652173913043478,
+    "address_drift_ratio": 0.0,
+    "phase_macro_id": 1.0,
+    "phase_shift_deg": 0.0
+   },
+   "A": {
+    "in@0.1": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.05435412154579849,
+     "address_sub_id": 0.5434782608695652,
+     "address_drift_ratio": 0.000784632096279807,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.009595501803573787
+    },
+    "bridge@0.1": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.008468438156608698,
+     "address_sub_id": 0.5543478260869565,
+     "address_drift_ratio": 0.00409828876809478,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.09680017763364014
+    },
+    "in@0.3": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.17650971194117931,
+     "address_sub_id": 0.5652173913043478,
+     "address_drift_ratio": 0.0041383383697485105,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.04498138484252456
+    },
+    "bridge@0.3": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.02902499503621159,
+     "address_sub_id": 0.42391304347826086,
+     "address_drift_ratio": 0.02208341632045216,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 1.6290627431277984
+    },
+    "in@0.6": {
+     "content_id": 0.7083333333333334,
+     "content_drift_ratio": 0.42498734512080916,
+     "address_sub_id": 0.5543478260869565,
+     "address_drift_ratio": 0.003203643105550909,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.04116706588702444
+    },
+    "bridge@0.6": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.07656301526895914,
+     "address_sub_id": 0.22282608695652173,
+     "address_drift_ratio": 0.07848174028506992,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 8.276114234148253
+    },
+    "in@1.0": {
+     "content_id": 0.6666666666666666,
+     "content_drift_ratio": 0.5004106883316567,
+     "address_sub_id": 0.5597826086956522,
+     "address_drift_ratio": 0.007326942937791022,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.073138694384526
+    },
+    "bridge@1.0": {
+     "content_id": 0.875,
+     "content_drift_ratio": 0.20825321614776462,
+     "address_sub_id": 0.21195652173913043,
+     "address_drift_ratio": 0.22748485187488646,
+     "phase_macro_id": 0.3333333333333333,
+     "phase_shift_deg": 22.777963838314655
+    }
+   },
+   "B": {
+    "none@0.1": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.008180565270011535,
+     "address_sub_id": 0.4945652173913043,
+     "address_drift_ratio": 0.007109232188056455,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.424236051189327
+    },
+    "interface_total@0.1": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.005368778524991351,
+     "address_sub_id": 0.5652173913043478,
+     "address_drift_ratio": 0.0016392377786451477,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.014726278329757876
+    },
+    "macro_interface@0.1": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.008057692126965386,
+     "address_sub_id": 0.592391304347826,
+     "address_drift_ratio": 0.00474014269966848,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.05796869980336978
+    },
+    "node_scaling@0.1": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.008058089651989451,
+     "address_sub_id": 0.4945652173913043,
+     "address_drift_ratio": 0.006805606715952797,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.39537871077843095
+    },
+    "none@0.3": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.035347388226806144,
+     "address_sub_id": 0.2717391304347826,
+     "address_drift_ratio": 0.03681574843707128,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 2.712792165350155
+    },
+    "interface_total@0.3": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.011367557324001945,
+     "address_sub_id": 0.5597826086956522,
+     "address_drift_ratio": 0.0024634813795307653,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.04021116375625633
+    },
+    "macro_interface@0.3": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.03369158876284458,
+     "address_sub_id": 0.45652173913043476,
+     "address_drift_ratio": 0.022777168024578374,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.2303180535313528
+    },
+    "node_scaling@0.3": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.030176752289897888,
+     "address_sub_id": 0.2608695652173913,
+     "address_drift_ratio": 0.035281726179523624,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 2.46152909096486
+    },
+    "none@0.6": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.08564714014756956,
+     "address_sub_id": 0.2608695652173913,
+     "address_drift_ratio": 0.07147027868265851,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 8.723980863619415
+    },
+    "interface_total@0.6": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.035189583858179496,
+     "address_sub_id": 0.5869565217391305,
+     "address_drift_ratio": 0.007667689548887552,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.11658077277296462
+    },
+    "macro_interface@0.6": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.07654552244813745,
+     "address_sub_id": 0.5,
+     "address_drift_ratio": 0.017371922293305083,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.23747284786496842
+    },
+    "node_scaling@0.6": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.07239206164333732,
+     "address_sub_id": 0.2608695652173913,
+     "address_drift_ratio": 0.0682902566510394,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 8.143723460249358
+    },
+    "none@1.0": {
+     "content_id": 0.9583333333333334,
+     "content_drift_ratio": 0.18951373092835924,
+     "address_sub_id": 0.17391304347826086,
+     "address_drift_ratio": 0.22521537140916364,
+     "phase_macro_id": 0.3333333333333333,
+     "phase_shift_deg": 22.870764845361833
+    },
+    "interface_total@1.0": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.04992015404095211,
+     "address_sub_id": 0.4782608695652174,
+     "address_drift_ratio": 0.018129601616748644,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.15527568125562866
+    },
+    "macro_interface@1.0": {
+     "content_id": 0.9583333333333334,
+     "content_drift_ratio": 0.15659707999744185,
+     "address_sub_id": 0.41847826086956524,
+     "address_drift_ratio": 0.09035253233114894,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.7958949635023495
+    },
+    "node_scaling@1.0": {
+     "content_id": 0.9583333333333334,
+     "content_drift_ratio": 0.15866546018708277,
+     "address_sub_id": 0.17391304347826086,
+     "address_drift_ratio": 0.2096354679109394,
+     "phase_macro_id": 0.3333333333333333,
+     "phase_shift_deg": 21.592000238655295
+    }
+   }
+  },
+  {
+   "seed": 1,
+   "baseline": {
+    "content_id": 1.0,
+    "content_drift_ratio": 0.0,
+    "address_sub_id": 0.5380434782608695,
+    "address_drift_ratio": 0.0,
+    "phase_macro_id": 1.0,
+    "phase_shift_deg": 0.0
+   },
+   "A": {
+    "in@0.1": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.09231853555082224,
+     "address_sub_id": 0.532608695652174,
+     "address_drift_ratio": 0.0005984681526219448,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.009617429225237197
+    },
+    "bridge@0.1": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.010516316172592351,
+     "address_sub_id": 0.5706521739130435,
+     "address_drift_ratio": 0.00648784216705372,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.25609190738700865
+    },
+    "in@0.3": {
+     "content_id": 0.9583333333333334,
+     "content_drift_ratio": 0.2729760036637821,
+     "address_sub_id": 0.5597826086956522,
+     "address_drift_ratio": 0.0013534264827004643,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.030666481415417918
+    },
+    "bridge@0.3": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.0390540853342081,
+     "address_sub_id": 0.42391304347826086,
+     "address_drift_ratio": 0.019483925696805494,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 1.28914394653205
+    },
+    "in@0.6": {
+     "content_id": 0.7083333333333334,
+     "content_drift_ratio": 0.48071171814043984,
+     "address_sub_id": 0.5543478260869565,
+     "address_drift_ratio": 0.0022910249537354006,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.04474228529049079
+    },
+    "bridge@0.6": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.14484609497250275,
+     "address_sub_id": 0.31521739130434784,
+     "address_drift_ratio": 0.06497748452648792,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 8.141427597980801
+    },
+    "in@1.0": {
+     "content_id": 0.4583333333333333,
+     "content_drift_ratio": 0.8883809636257575,
+     "address_sub_id": 0.5978260869565217,
+     "address_drift_ratio": 0.005287443898021316,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.09273462521316657
+    },
+    "bridge@1.0": {
+     "content_id": 0.9583333333333334,
+     "content_drift_ratio": 0.35202321741791043,
+     "address_sub_id": 0.20652173913043478,
+     "address_drift_ratio": 0.20711805672986608,
+     "phase_macro_id": 0.3333333333333333,
+     "phase_shift_deg": 23.965607577266713
+    }
+   },
+   "B": {
+    "none@0.1": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.010866662801035591,
+     "address_sub_id": 0.5434782608695652,
+     "address_drift_ratio": 0.004292795849657387,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.22184285477072596
+    },
+    "interface_total@0.1": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.006331337915747164,
+     "address_sub_id": 0.5597826086956522,
+     "address_drift_ratio": 0.0008019849550024185,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.014423292720598039
+    },
+    "macro_interface@0.1": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.010808069196017806,
+     "address_sub_id": 0.5706521739130435,
+     "address_drift_ratio": 0.0029625350308204704,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.049557696554398935
+    },
+    "node_scaling@0.1": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.010638331689110504,
+     "address_sub_id": 0.5869565217391305,
+     "address_drift_ratio": 0.004049335115932116,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.1898052416471728
+    },
+    "none@0.3": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.03839892369369427,
+     "address_sub_id": 0.3967391304347826,
+     "address_drift_ratio": 0.014699810463583958,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.8760994014321066
+    },
+    "interface_total@0.3": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.017466165586079933,
+     "address_sub_id": 0.5706521739130435,
+     "address_drift_ratio": 0.0009263170970234858,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.026955941510011672
+    },
+    "macro_interface@0.3": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.03815895977744604,
+     "address_sub_id": 0.5652173913043478,
+     "address_drift_ratio": 0.006890639521286083,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.1153516820037825
+    },
+    "node_scaling@0.3": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.03681083808646757,
+     "address_sub_id": 0.3967391304347826,
+     "address_drift_ratio": 0.014303927508668266,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.807690913002676
+    },
+    "none@0.6": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.1353096092013995,
+     "address_sub_id": 0.34782608695652173,
+     "address_drift_ratio": 0.052040298887758074,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 6.773963585195314
+    },
+    "interface_total@0.6": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.038585204202357046,
+     "address_sub_id": 0.5760869565217391,
+     "address_drift_ratio": 0.003036536261810082,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.09224308879024137
+    },
+    "macro_interface@0.6": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.1276326276306298,
+     "address_sub_id": 0.42391304347826086,
+     "address_drift_ratio": 0.02044901104112281,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.24321957589187027
+    },
+    "node_scaling@0.6": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.12619287530543838,
+     "address_sub_id": 0.3532608695652174,
+     "address_drift_ratio": 0.0458127654589741,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 6.025368213300957
+    },
+    "none@1.0": {
+     "content_id": 0.9583333333333334,
+     "content_drift_ratio": 0.29759422275175057,
+     "address_sub_id": 0.15760869565217392,
+     "address_drift_ratio": 0.1972205638624321,
+     "phase_macro_id": 0.6614583333333334,
+     "phase_shift_deg": 19.36555445707469
+    },
+    "interface_total@1.0": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.05168525804150965,
+     "address_sub_id": 0.5706521739130435,
+     "address_drift_ratio": 0.004291263280698108,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.08642661961711977
+    },
+    "macro_interface@1.0": {
+     "content_id": 0.9583333333333334,
+     "content_drift_ratio": 0.26070325187703525,
+     "address_sub_id": 0.2826086956521739,
+     "address_drift_ratio": 0.08652335303437599,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 1.0332226065414654
+    },
+    "node_scaling@1.0": {
+     "content_id": 0.9583333333333334,
+     "content_drift_ratio": 0.2705256349441949,
+     "address_sub_id": 0.16304347826086957,
+     "address_drift_ratio": 0.18357845649506488,
+     "phase_macro_id": 0.6666666666666666,
+     "phase_shift_deg": 17.935963006407476
+    }
+   }
+  },
+  {
+   "seed": 2,
+   "baseline": {
+    "content_id": 1.0,
+    "content_drift_ratio": 0.0,
+    "address_sub_id": 0.625,
+    "address_drift_ratio": 0.0,
+    "phase_macro_id": 1.0,
+    "phase_shift_deg": 0.0
+   },
+   "A": {
+    "in@0.1": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.08372752312874403,
+     "address_sub_id": 0.6521739130434783,
+     "address_drift_ratio": 0.0003049394375029729,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.006461125298039808
+    },
+    "bridge@0.1": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.012867544581695065,
+     "address_sub_id": 0.6032608695652174,
+     "address_drift_ratio": 0.005891065590532761,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.1590251603520967
+    },
+    "in@0.3": {
+     "content_id": 0.9583333333333334,
+     "content_drift_ratio": 0.28149210070344377,
+     "address_sub_id": 0.6847826086956522,
+     "address_drift_ratio": 0.0011357495829878062,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.024325721782266975
+    },
+    "bridge@0.3": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.04947467570953687,
+     "address_sub_id": 0.391304347826087,
+     "address_drift_ratio": 0.02918452245310856,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 2.5511771718973377
+    },
+    "in@0.6": {
+     "content_id": 0.75,
+     "content_drift_ratio": 0.5687039999876721,
+     "address_sub_id": 0.6467391304347826,
+     "address_drift_ratio": 0.0012474661495287796,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.042106738543002536
+    },
+    "bridge@0.6": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.14780286170248833,
+     "address_sub_id": 0.29347826086956524,
+     "address_drift_ratio": 0.06659055121263464,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 8.389855881891268
+    },
+    "in@1.0": {
+     "content_id": 0.5416666666666666,
+     "content_drift_ratio": 0.794665954592336,
+     "address_sub_id": 0.6847826086956522,
+     "address_drift_ratio": 0.002195289419186005,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.0879429074489326
+    },
+    "bridge@1.0": {
+     "content_id": 0.9583333333333334,
+     "content_drift_ratio": 0.34669290069442954,
+     "address_sub_id": 0.18478260869565216,
+     "address_drift_ratio": 0.1654811894489275,
+     "phase_macro_id": 0.5,
+     "phase_shift_deg": 20.312765663639553
+    }
+   },
+   "B": {
+    "none@0.1": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.010402912707374727,
+     "address_sub_id": 0.5706521739130435,
+     "address_drift_ratio": 0.005220500563869154,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.3477822330767454
+    },
+    "interface_total@0.1": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.00641068472877216,
+     "address_sub_id": 0.6902173913043478,
+     "address_drift_ratio": 0.00029325084959014894,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.008663078960934415
+    },
+    "macro_interface@0.1": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.010218298691900678,
+     "address_sub_id": 0.657608695652174,
+     "address_drift_ratio": 0.0032446934520539133,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.05664690971924308
+    },
+    "node_scaling@0.1": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.010812436422557378,
+     "address_sub_id": 0.5380434782608695,
+     "address_drift_ratio": 0.0050811330374757645,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.3467830664310753
+    },
+    "none@0.3": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.04704163199650404,
+     "address_sub_id": 0.32065217391304346,
+     "address_drift_ratio": 0.029855905481416263,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 2.770904228707268
+    },
+    "interface_total@0.3": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.021311511461313954,
+     "address_sub_id": 0.6467391304347826,
+     "address_drift_ratio": 0.0021690219708339533,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.03448689938123903
+    },
+    "macro_interface@0.3": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.04539958628124309,
+     "address_sub_id": 0.6521739130434783,
+     "address_drift_ratio": 0.012771987913109174,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.15522732439573833
+    },
+    "node_scaling@0.3": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.046002059115002956,
+     "address_sub_id": 0.33152173913043476,
+     "address_drift_ratio": 0.027191514175012785,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 2.581240052186082
+    },
+    "none@0.6": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.15546457771409192,
+     "address_sub_id": 0.2608695652173913,
+     "address_drift_ratio": 0.06944838475768325,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 8.070714361885218
+    },
+    "interface_total@0.6": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.040640393746076205,
+     "address_sub_id": 0.6630434782608695,
+     "address_drift_ratio": 0.005437098655373601,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.0927752565994659
+    },
+    "macro_interface@0.6": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.14261042778281968,
+     "address_sub_id": 0.5380434782608695,
+     "address_drift_ratio": 0.031296217735690926,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.33462726846080054
+    },
+    "node_scaling@0.6": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.14008347310216354,
+     "address_sub_id": 0.2826086956521739,
+     "address_drift_ratio": 0.06109737492113552,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 7.376596428240876
+    },
+    "none@1.0": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.3717452966809305,
+     "address_sub_id": 0.21739130434782608,
+     "address_drift_ratio": 0.18074755055603778,
+     "phase_macro_id": 0.3802083333333333,
+     "phase_shift_deg": 23.326767711285278
+    },
+    "interface_total@1.0": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.08198586459147313,
+     "address_sub_id": 0.625,
+     "address_drift_ratio": 0.006781222518461201,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.15225535735431317
+    },
+    "macro_interface@1.0": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.3254914501215336,
+     "address_sub_id": 0.45652173913043476,
+     "address_drift_ratio": 0.028106902859976638,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.5536313575719434
+    },
+    "node_scaling@1.0": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.3165131411996175,
+     "address_sub_id": 0.21739130434782608,
+     "address_drift_ratio": 0.161840174147404,
+     "phase_macro_id": 0.484375,
+     "phase_shift_deg": 21.290244406271064
+    }
+   }
+  },
+  {
+   "seed": 3,
+   "baseline": {
+    "content_id": 1.0,
+    "content_drift_ratio": 0.0,
+    "address_sub_id": 0.5489130434782609,
+    "address_drift_ratio": 0.0,
+    "phase_macro_id": 1.0,
+    "phase_shift_deg": 0.0
+   },
+   "A": {
+    "in@0.1": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.08861736555393764,
+     "address_sub_id": 0.5815217391304348,
+     "address_drift_ratio": 0.00018773644130535376,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.0074787432813246905
+    },
+    "bridge@0.1": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.012331959416836047,
+     "address_sub_id": 0.5869565217391305,
+     "address_drift_ratio": 0.00267327339195877,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.1997151104273627
+    },
+    "in@0.3": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.21569949523279358,
+     "address_sub_id": 0.5706521739130435,
+     "address_drift_ratio": 0.0003486694221954405,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.02027005220295896
+    },
+    "bridge@0.3": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.03996350591384841,
+     "address_sub_id": 0.34782608695652173,
+     "address_drift_ratio": 0.023137249487551102,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 2.8586659712759994
+    },
+    "in@0.6": {
+     "content_id": 0.8333333333333334,
+     "content_drift_ratio": 0.4614369423008809,
+     "address_sub_id": 0.592391304347826,
+     "address_drift_ratio": 0.001294023756647089,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.045491055839562027
+    },
+    "bridge@0.6": {
+     "content_id": 0.9583333333333334,
+     "content_drift_ratio": 0.1410258139156028,
+     "address_sub_id": 0.21739130434782608,
+     "address_drift_ratio": 0.09019592720742799,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 8.16920248881187
+    },
+    "in@1.0": {
+     "content_id": 0.5416666666666666,
+     "content_drift_ratio": 0.7979127802697704,
+     "address_sub_id": 0.5706521739130435,
+     "address_drift_ratio": 0.0011028178819554471,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.05916180008522829
+    },
+    "bridge@1.0": {
+     "content_id": 0.9166666666666666,
+     "content_drift_ratio": 0.42035105702007963,
+     "address_sub_id": 0.14673913043478262,
+     "address_drift_ratio": 0.17060646186611492,
+     "phase_macro_id": 0.3333333333333333,
+     "phase_shift_deg": 19.84908203937839
+    }
+   },
+   "B": {
+    "none@0.1": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.010182934728649073,
+     "address_sub_id": 0.5163043478260869,
+     "address_drift_ratio": 0.005292970961145569,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.4700281189745953
+    },
+    "interface_total@0.1": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.006620320818045618,
+     "address_sub_id": 0.5815217391304348,
+     "address_drift_ratio": 0.0002526091013426414,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.00939029026402328
+    },
+    "macro_interface@0.1": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.010207345529923306,
+     "address_sub_id": 0.5271739130434783,
+     "address_drift_ratio": 0.002295822482516278,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.033671943833366684
+    },
+    "node_scaling@0.1": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.01054237502832027,
+     "address_sub_id": 0.5108695652173914,
+     "address_drift_ratio": 0.005352880638256109,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.4872362618447923
+    },
+    "none@0.3": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.04704493708043038,
+     "address_sub_id": 0.3858695652173913,
+     "address_drift_ratio": 0.020171302926409215,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 2.53087006222337
+    },
+    "interface_total@0.3": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.021570879039229555,
+     "address_sub_id": 0.6032608695652174,
+     "address_drift_ratio": 0.0009484346267709357,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.028252370503006174
+    },
+    "macro_interface@0.3": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.04484153341446126,
+     "address_sub_id": 0.5543478260869565,
+     "address_drift_ratio": 0.006650602397870026,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.11806570055927704
+    },
+    "node_scaling@0.3": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.04572617639577075,
+     "address_sub_id": 0.3858695652173913,
+     "address_drift_ratio": 0.018118342731898624,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 2.285948520873036
+    },
+    "none@0.6": {
+     "content_id": 0.9583333333333334,
+     "content_drift_ratio": 0.11127180429486508,
+     "address_sub_id": 0.22826086956521738,
+     "address_drift_ratio": 0.07249477363949663,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 8.71920127275649
+    },
+    "interface_total@0.6": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.04091709827521094,
+     "address_sub_id": 0.5597826086956522,
+     "address_drift_ratio": 0.0015473951347922303,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.04758665232590346
+    },
+    "macro_interface@0.6": {
+     "content_id": 0.9583333333333334,
+     "content_drift_ratio": 0.10034038277760342,
+     "address_sub_id": 0.44565217391304346,
+     "address_drift_ratio": 0.028141156278296327,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.2678239614720758
+    },
+    "node_scaling@0.6": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.10307658679322686,
+     "address_sub_id": 0.22826086956521738,
+     "address_drift_ratio": 0.06631547303355699,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 8.116804241426474
+    },
+    "none@1.0": {
+     "content_id": 0.9166666666666666,
+     "content_drift_ratio": 0.37723678309076963,
+     "address_sub_id": 0.21739130434782608,
+     "address_drift_ratio": 0.161847493248829,
+     "phase_macro_id": 0.4947916666666667,
+     "phase_shift_deg": 19.881130293549166
+    },
+    "interface_total@1.0": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.07520812083615147,
+     "address_sub_id": 0.592391304347826,
+     "address_drift_ratio": 0.0025901834231983703,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.11491094630041827
+    },
+    "macro_interface@1.0": {
+     "content_id": 0.9583333333333334,
+     "content_drift_ratio": 0.34032435360951113,
+     "address_sub_id": 0.29891304347826086,
+     "address_drift_ratio": 0.04539908315219779,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.5138210236051275
+    },
+    "node_scaling@1.0": {
+     "content_id": 0.9166666666666666,
+     "content_drift_ratio": 0.3276584785693983,
+     "address_sub_id": 0.21739130434782608,
+     "address_drift_ratio": 0.1442621928386747,
+     "phase_macro_id": 0.5416666666666666,
+     "phase_shift_deg": 18.03404196500936
+    }
+   }
+  },
+  {
+   "seed": 4,
+   "baseline": {
+    "content_id": 1.0,
+    "content_drift_ratio": 0.0,
+    "address_sub_id": 0.6413043478260869,
+    "address_drift_ratio": 0.0,
+    "phase_macro_id": 1.0,
+    "phase_shift_deg": 0.0
+   },
+   "A": {
+    "in@0.1": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.09114496648100857,
+     "address_sub_id": 0.5706521739130435,
+     "address_drift_ratio": 0.0002691336949554077,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.009695353209690413
+    },
+    "bridge@0.1": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.012352926151640443,
+     "address_sub_id": 0.5489130434782609,
+     "address_drift_ratio": 0.0062948866690791345,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.18494500732543834
+    },
+    "in@0.3": {
+     "content_id": 0.9583333333333334,
+     "content_drift_ratio": 0.23469638796703896,
+     "address_sub_id": 0.6195652173913043,
+     "address_drift_ratio": 0.0012956594468091825,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.03233735163225442
+    },
+    "bridge@0.3": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.04359637240715626,
+     "address_sub_id": 0.358695652173913,
+     "address_drift_ratio": 0.016048053206139393,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 2.269249383499212
+    },
+    "in@0.6": {
+     "content_id": 0.6666666666666666,
+     "content_drift_ratio": 0.49217842784344257,
+     "address_sub_id": 0.5978260869565217,
+     "address_drift_ratio": 0.0023461406100419757,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.045992049807988905
+    },
+    "bridge@0.6": {
+     "content_id": 0.9583333333333334,
+     "content_drift_ratio": 0.11044156607221353,
+     "address_sub_id": 0.21739130434782608,
+     "address_drift_ratio": 0.07825865908932209,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 8.914059850914072
+    },
+    "in@1.0": {
+     "content_id": 0.16666666666666666,
+     "content_drift_ratio": 0.8772040791630977,
+     "address_sub_id": 0.5815217391304348,
+     "address_drift_ratio": 0.004984108756019769,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.09406453195001166
+    },
+    "bridge@1.0": {
+     "content_id": 0.875,
+     "content_drift_ratio": 0.3039900262666658,
+     "address_sub_id": 0.16304347826086957,
+     "address_drift_ratio": 0.1673577574908497,
+     "phase_macro_id": 0.5,
+     "phase_shift_deg": 18.383754546823518
+    }
+   },
+   "B": {
+    "none@0.1": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.010755843236604503,
+     "address_sub_id": 0.6195652173913043,
+     "address_drift_ratio": 0.008733939766925962,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.17552107280090362
+    },
+    "interface_total@0.1": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.005146116979900546,
+     "address_sub_id": 0.6413043478260869,
+     "address_drift_ratio": 0.0007152337764953503,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.0096278414974294
+    },
+    "macro_interface@0.1": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.010907441665515147,
+     "address_sub_id": 0.6413043478260869,
+     "address_drift_ratio": 0.007804620679729362,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.07417108103196632
+    },
+    "node_scaling@0.1": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.010983066349644193,
+     "address_sub_id": 0.6141304347826086,
+     "address_drift_ratio": 0.008562178924061954,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.16893555014249004
+    },
+    "none@0.3": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.044115337178214,
+     "address_sub_id": 0.3423913043478261,
+     "address_drift_ratio": 0.031482507058568795,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 1.85500977593942
+    },
+    "interface_total@0.3": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.01967575826423036,
+     "address_sub_id": 0.625,
+     "address_drift_ratio": 0.0009882018638358357,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.02685995502936678
+    },
+    "macro_interface@0.3": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.043211498179475116,
+     "address_sub_id": 0.5543478260869565,
+     "address_drift_ratio": 0.02428638045746439,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.1877813814413315
+    },
+    "node_scaling@0.3": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.04291398262687023,
+     "address_sub_id": 0.34782608695652173,
+     "address_drift_ratio": 0.030407171151246543,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 1.79983316123683
+    },
+    "none@0.6": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.09118708460169227,
+     "address_sub_id": 0.25,
+     "address_drift_ratio": 0.08510547343965136,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 9.199756857808907
+    },
+    "interface_total@0.6": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.03864913351064517,
+     "address_sub_id": 0.6195652173913043,
+     "address_drift_ratio": 0.004567675630180759,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.06969439857335206
+    },
+    "macro_interface@0.6": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.08123267390254175,
+     "address_sub_id": 0.42391304347826086,
+     "address_drift_ratio": 0.03265490322319877,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.33935442906245866
+    },
+    "node_scaling@0.6": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.08018975771818478,
+     "address_sub_id": 0.25,
+     "address_drift_ratio": 0.07928540744138263,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 8.561889336850136
+    },
+    "none@1.0": {
+     "content_id": 0.9166666666666666,
+     "content_drift_ratio": 0.26209499598739217,
+     "address_sub_id": 0.1956521739130435,
+     "address_drift_ratio": 0.1670686862989486,
+     "phase_macro_id": 0.5,
+     "phase_shift_deg": 19.80055817567259
+    },
+    "interface_total@1.0": {
+     "content_id": 1.0,
+     "content_drift_ratio": 0.06793728822717918,
+     "address_sub_id": 0.5869565217391305,
+     "address_drift_ratio": 0.010014821491198783,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.13732752028828524
+    },
+    "macro_interface@1.0": {
+     "content_id": 0.9583333333333334,
+     "content_drift_ratio": 0.22889378469822624,
+     "address_sub_id": 0.391304347826087,
+     "address_drift_ratio": 0.06251215623110931,
+     "phase_macro_id": 1.0,
+     "phase_shift_deg": 0.4539849684554312
+    },
+    "node_scaling@1.0": {
+     "content_id": 0.9166666666666666,
+     "content_drift_ratio": 0.2241180520435183,
+     "address_sub_id": 0.17391304347826086,
+     "address_drift_ratio": 0.1460360474541131,
+     "phase_macro_id": 0.5,
+     "phase_shift_deg": 17.82742968784094
+    }
+   }
+  }
+ ],
+ "summary": {
+  "baseline": {
+   "content_id": 1.0,
+   "content_drift_ratio": 0.0,
+   "address_sub_id": 0.583695652173913,
+   "address_drift_ratio": 0.0,
+   "phase_macro_id": 1.0,
+   "phase_shift_deg": 0.0
+  },
+  "A:in@0.1": {
+   "content_id": 1.0,
+   "content_drift_ratio": 0.08203250245206219,
+   "address_sub_id": 0.5760869565217391,
+   "address_drift_ratio": 0.0004289819645330973,
+   "phase_macro_id": 1.0,
+   "phase_shift_deg": 0.00856963056357318
+  },
+  "A:bridge@0.1": {
+   "content_id": 1.0,
+   "content_drift_ratio": 0.011307436895874521,
+   "address_sub_id": 0.5728260869565217,
+   "address_drift_ratio": 0.005089071317343834,
+   "phase_macro_id": 1.0,
+   "phase_shift_deg": 0.1793154726251093
+  },
+  "A:in@0.3": {
+   "content_id": 0.975,
+   "content_drift_ratio": 0.23627473990164755,
+   "address_sub_id": 0.6,
+   "address_drift_ratio": 0.0016543686608882808,
+   "phase_macro_id": 1.0,
+   "phase_shift_deg": 0.03051619837508457
+  },
+  "A:bridge@0.3": {
+   "content_id": 1.0,
+   "content_drift_ratio": 0.04022272688019225,
+   "address_sub_id": 0.38913043478260867,
+   "address_drift_ratio": 0.021987433432811343,
+   "phase_macro_id": 1.0,
+   "phase_shift_deg": 2.1194598432664793
+  },
+  "A:in@0.6": {
+   "content_id": 0.7333333333333334,
+   "content_drift_ratio": 0.48560368667864884,
+   "address_sub_id": 0.5891304347826087,
+   "address_drift_ratio": 0.0020764597151008307,
+   "phase_macro_id": 1.0,
+   "phase_shift_deg": 0.043899839073613736
+  },
+  "A:bridge@0.6": {
+   "content_id": 0.9833333333333334,
+   "content_drift_ratio": 0.12413587038635332,
+   "address_sub_id": 0.25326086956521743,
+   "address_drift_ratio": 0.07570087246418851,
+   "phase_macro_id": 1.0,
+   "phase_shift_deg": 8.378132010749251
+  },
+  "A:in@1.0": {
+   "content_id": 0.4749999999999999,
+   "content_drift_ratio": 0.7717148931965236,
+   "address_sub_id": 0.5989130434782609,
+   "address_drift_ratio": 0.004179320578594712,
+   "phase_macro_id": 1.0,
+   "phase_shift_deg": 0.08140851181637303
+  },
+  "A:bridge@1.0": {
+   "content_id": 0.9166666666666667,
+   "content_drift_ratio": 0.32626208350937,
+   "address_sub_id": 0.18260869565217389,
+   "address_drift_ratio": 0.18760966348212893,
+   "phase_macro_id": 0.39999999999999997,
+   "phase_shift_deg": 21.057834733084565
+  },
+  "B:none@0.1": {
+   "content_id": 1.0,
+   "content_drift_ratio": 0.010077783748735086,
+   "address_sub_id": 0.5489130434782609,
+   "address_drift_ratio": 0.006129887865930906,
+   "phase_macro_id": 1.0,
+   "phase_shift_deg": 0.3278820661624594
+  },
+  "B:interface_total@0.1": {
+   "content_id": 1.0,
+   "content_drift_ratio": 0.005975447793491368,
+   "address_sub_id": 0.6076086956521738,
+   "address_drift_ratio": 0.0007404632922151413,
+   "phase_macro_id": 1.0,
+   "phase_shift_deg": 0.011366156354548601
+  },
+  "B:macro_interface@0.1": {
+   "content_id": 1.0,
+   "content_drift_ratio": 0.010039769442064464,
+   "address_sub_id": 0.5978260869565217,
+   "address_drift_ratio": 0.004209562868957701,
+   "phase_macro_id": 1.0,
+   "phase_shift_deg": 0.054403266188468954
+  },
+  "B:node_scaling@0.1": {
+   "content_id": 1.0,
+   "content_drift_ratio": 0.01020685982832436,
+   "address_sub_id": 0.5489130434782608,
+   "address_drift_ratio": 0.005970226886335747,
+   "phase_macro_id": 1.0,
+   "phase_shift_deg": 0.3176277661687923
+  },
+  "B:none@0.3": {
+   "content_id": 1.0,
+   "content_drift_ratio": 0.042389643635129766,
+   "address_sub_id": 0.34347826086956523,
+   "address_drift_ratio": 0.0266050548734099,
+   "phase_macro_id": 1.0,
+   "phase_shift_deg": 2.149135126730464
+  },
+  "B:interface_total@0.3": {
+   "content_id": 1.0,
+   "content_drift_ratio": 0.018278374334971148,
+   "address_sub_id": 0.6010869565217392,
+   "address_drift_ratio": 0.0014990913875989951,
+   "phase_macro_id": 1.0,
+   "phase_shift_deg": 0.031353266035976
+  },
+  "B:macro_interface@0.3": {
+   "content_id": 1.0,
+   "content_drift_ratio": 0.04106063328309402,
+   "address_sub_id": 0.5565217391304348,
+   "address_drift_ratio": 0.01467535566286161,
+   "phase_macro_id": 1.0,
+   "phase_shift_deg": 0.16134882838629644
+  },
+  "B:node_scaling@0.3": {
+   "content_id": 1.0,
+   "content_drift_ratio": 0.04032596170280188,
+   "address_sub_id": 0.34456521739130436,
+   "address_drift_ratio": 0.02506053634926997,
+   "phase_macro_id": 1.0,
+   "phase_shift_deg": 1.987248347652697
+  },
+  "B:none@0.6": {
+   "content_id": 0.9916666666666668,
+   "content_drift_ratio": 0.11577604319192365,
+   "address_sub_id": 0.26956521739130435,
+   "address_drift_ratio": 0.07011184188144956,
+   "phase_macro_id": 1.0,
+   "phase_shift_deg": 8.297523388253069
+  },
+  "B:interface_total@0.6": {
+   "content_id": 1.0,
+   "content_drift_ratio": 0.03879628271849377,
+   "address_sub_id": 0.6010869565217392,
+   "address_drift_ratio": 0.004451279046208845,
+   "phase_macro_id": 1.0,
+   "phase_shift_deg": 0.08377603381238549
+  },
+  "B:macro_interface@0.6": {
+   "content_id": 0.9916666666666668,
+   "content_drift_ratio": 0.10567232690834642,
+   "address_sub_id": 0.46630434782608693,
+   "address_drift_ratio": 0.025982642114322784,
+   "phase_macro_id": 1.0,
+   "phase_shift_deg": 0.2844996165504347
+  },
+  "B:node_scaling@0.6": {
+   "content_id": 1.0,
+   "content_drift_ratio": 0.10438695091247019,
+   "address_sub_id": 0.27499999999999997,
+   "address_drift_ratio": 0.06416025550121772,
+   "phase_macro_id": 1.0,
+   "phase_shift_deg": 7.64487633601356
+  },
+  "B:none@1.0": {
+   "content_id": 0.95,
+   "content_drift_ratio": 0.2996370058878404,
+   "address_sub_id": 0.1923913043478261,
+   "address_drift_ratio": 0.1864199330750822,
+   "phase_macro_id": 0.47395833333333337,
+   "phase_shift_deg": 21.04895509658871
+  },
+  "B:interface_total@1.0": {
+   "content_id": 1.0,
+   "content_drift_ratio": 0.06534733714745311,
+   "address_sub_id": 0.5706521739130435,
+   "address_drift_ratio": 0.008361418466061022,
+   "phase_macro_id": 1.0,
+   "phase_shift_deg": 0.12923922496315302
+  },
+  "B:macro_interface@1.0": {
+   "content_id": 0.9666666666666668,
+   "content_drift_ratio": 0.2624019840607496,
+   "address_sub_id": 0.3695652173913043,
+   "address_drift_ratio": 0.06257880552176173,
+   "phase_macro_id": 1.0,
+   "phase_shift_deg": 0.6701109839352634
+  },
+  "B:node_scaling@1.0": {
+   "content_id": 0.95,
+   "content_drift_ratio": 0.25949615338876236,
+   "address_sub_id": 0.1891304347826087,
+   "address_drift_ratio": 0.16907046776923923,
+   "phase_macro_id": 0.5052083333333333,
+   "phase_shift_deg": 19.335935860836827
+  }
+ }
+}

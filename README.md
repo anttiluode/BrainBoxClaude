@@ -143,6 +143,64 @@ Same harness, bridge drift, then one homeostat:
 - Honest limit: the interface homeostat needs each block to sense its total coupling to each neighbour.
   That is local to the interface, not to a single synapse. Whether biology has such a sensor is not tested here.
 
+### G4 — Sol's learned content under bridge drift, rescued by interface totals · **PASS (P1–P3); P4 fails at P = 1**
+`gates/g4_sol_bridge_rescue.py` · `brainbox/solport.py` · source: anttiluode/BrainBoxSol
+(branch `sol/local-material-credit-g0`, commit 973bb63)
+
+Sol found that after his local adjoint writes, −20/+20/−20% bridge drift pushes read-out errors to ~15%,
+and 160 supervised replay steps with **all** old targets still leave ~10–12%. Gemini/Argon proposed that
+phase-gated addressing (G2) could protect his content. G3b says something else protects it: interface
+totals. Tested on **Sol's own medium and writers**, ported here.
+
+- **Reproduction first.** The port reproduces Sol's G0 exactly: local error 0.0015499, post-drift
+  [+0.0402, −0.1467, −0.0000, −0.1457], replay [0.0000, −0.1165, −0.0001, −0.1037].
+- **Sol's medium has one bridge edge per interface (P = 1).** There an "interface-total homeostat" just
+  restores every bridge — it would have to store each weight. Degenerate; not counted as evidence.
+- **The test:** P parallel bridges per interface, same total conductance as Sol's. Drift
+  g ← g·exp(0.2·ξ_interface + 0.2·ξ_edge) (coherent + independent). The homeostat stores **one scalar per
+  interface** and gets **no targets, no replay, no read-out**. Same drifted medium for every repair.
+
+Sol's bridge conductance, all 384 cases (16 teacher patterns × 24 write orders), local writer, 3 drift draws:
+
+| P | error before drift | after drift | Sol's replay (all targets) | **interface homeostat** | per-node scaling | homeostat beats replay |
+|---|---|---|---|---|---|---|
+| 1 (degenerate) | 0.0154 | 0.146 | 0.069 (68% removed) | 0.0154 (100%) | 0.042 (77%) | 76% |
+| 2 | 0.0035 | 0.132 | 0.071 (51%) | **0.0056 (98%)** | 0.126 (4%) | 97% |
+| 4 | 0.0041 | 0.120 | 0.067 (49%) | **0.0052 (99%)** | 0.107 (10%) | 97% |
+| 8 | 0.0033 | 0.113 | 0.062 (50%) | **0.0039 (99%)** | 0.102 (8%) | 96% |
+
+(% = fraction of the drift damage removed, averaged per draw.)
+
+- **Purely independent per-edge drift** (s = 0.3, no shared interface part — all of it redistribution inside
+  interfaces, the hard case): homeostat removes **94% / 95% / 96%** at P = 2 / 4 / 8; replay 55% / 61% / 75%.
+- **Sol's protected (OGD/GPM) writer:** learns cleaner (0.0002 before drift) but drift damages it the same
+  (0.119 at P = 4). Protecting old outputs *while writing* does not protect them from the medium moving
+  *afterwards*. Homeostat removes 97%, replay 45%.
+- **Bridge / interior conductance ratio** (P = 4): homeostat removes 98 → 98 → 97 → 95 → **91%** as the ratio
+  goes 0.03 → 0.06 → 0.12 → 0.24 → 0.50; replay rises 39 → 77%. The part the homeostat cannot undo grows as
+  blocks stop being well-mixed relative to their bridges — the address is a coarse-grained quantity, and
+  the coarse-graining is only as good as the spectral gap.
+
+Predictions (written before running): **P1** reproduction — pass. **P2** homeostat removes > 70% and beats
+replay — pass (91–99% removed; beats replay in 88–99% of draws for every P ≥ 2 setting, 69% at ratio 0.5).
+**P3** residual grows with bridge/interior ratio — pass. **P4** node scaling < 30% — pass for every P ≥ 2
+(3–26%), **fail at P = 1** (73–77%): with one bridge per interface, scaling the bridge's endpoint nodes
+partly restores that single bridge.
+
+Honest limits:
+- The homeostat holds a **stored set point per interface** — one remembered number. Cheaper than replaying
+  every old target, but not free, and it needs to sense the total coupling across an interface.
+- Sol's replay is restricted to *local* writes by his design (bridges are never written); a replay allowed to
+  write bridges could also do better. The comparison is homeostat vs **his** repair rule.
+- Only bridge drift is tested here. In-block drift damages content directly (G3), and an interface homeostat
+  does nothing about that.
+
+**On Gemini's synthesis:** the pairing (Sol's local writes + Claude's address side) was the right pairing, but
+the mechanism was wrong. Phase-gated read-out does not protect against drift — under bridge drift the phase
+wave itself moves (21° in G3). What protects Sol's content is (1) **redundant bridges**, so drift is mostly
+redistribution inside an interface, and (2) **conserving each interface's total**. Sol's medium had neither
+redundancy nor a conserved quantity, which is why its address scaffold looked brittle.
+
 ## Ledger — corrections made on the way (kept on purpose)
 
 1. The morning scratch run reported 83% / 75% (macro / sub). It trained and tested the decoder on the same
@@ -184,8 +242,10 @@ been checked against the literature beyond this list — treat as unverified nov
 
 ## Next gates
 
-- **G4** — the honest discriminator: does a geometry-derived address beat a *learned* positional code in a
-  matched-cost RNN / fast-weight model on a K-simultaneous recall task?
+- **G5** — the honest discriminator for AI: put the interface-total rule into a *learning* network
+  (block-structured RNN / fast weights) on a continual-learning task with weight drift, against a
+  matched-cost unstructured network with ordinary normalization. If it does not win there, everything here
+  is a property of passive media, not an AI improvement.
 
 ## Layout
 
@@ -196,6 +256,8 @@ gates/g1_superposition.py
 gates/g2_pac.py
 gates/g2b_throughput.py
 gates/g3_content_vs_address.py   G3 + G3b
+brainbox/solport.py     port of BrainBoxSol's medium and writers (P parallel bridges)
+gates/g4_sol_bridge_rescue.py    G4
 results/*.json          raw numbers for every gate
 ```
 

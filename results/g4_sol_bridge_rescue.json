@@ -1,0 +1,208 @@
+{
+ "source": "anttiluode/BrainBoxSol@973bb63",
+ "reproduction": {
+  "local_mean_err": 0.0015499095523588086,
+  "post_drift": [
+   0.040192592460958486,
+   -0.14665131484556054,
+   -2.1579150786576995e-05,
+   -0.14567841911438803
+  ],
+  "replay": [
+   4.1284101871222056e-05,
+   -0.11650959157490598,
+   -0.0001474842290215883,
+   -0.10369215825795948
+  ]
+ },
+ "A": {
+  "1": {
+   "pre": 0.015411515402798124,
+   "none": 0.14589679088804655,
+   "replay": 0.06925476246423844,
+   "interface_total": 0.015411515402798096,
+   "node_scaling": 0.042395563694977025,
+   "oracle": 0.015411515402798124,
+   "removed_replay": 0.6789174952804117,
+   "removed_interface_total": 1.0000000000000009,
+   "removed_node_scaling": 0.7677405216953361,
+   "interface_beats_replay": 0.7630208333333334,
+   "n": 1152
+  },
+  "2": {
+   "pre": 0.003520173769389288,
+   "none": 0.13173127606986557,
+   "replay": 0.07056797430795789,
+   "interface_total": 0.005641694242953321,
+   "node_scaling": 0.126295527533417,
+   "oracle": 0.003520173769389288,
+   "removed_replay": 0.5088865814034025,
+   "removed_interface_total": 0.9766097854346029,
+   "removed_node_scaling": 0.03630060227209597,
+   "interface_beats_replay": 0.96875,
+   "n": 1152
+  },
+  "4": {
+   "pre": 0.004091666544083123,
+   "none": 0.12005737920002753,
+   "replay": 0.06717232046778,
+   "interface_total": 0.005179392177152671,
+   "node_scaling": 0.10693314165305773,
+   "oracle": 0.004091666544083123,
+   "removed_replay": 0.48823369979580333,
+   "removed_interface_total": 0.9853322608111822,
+   "removed_node_scaling": 0.10331748871752386,
+   "interface_beats_replay": 0.9713541666666666,
+   "n": 1152
+  },
+  "8": {
+   "pre": 0.003306145338837996,
+   "none": 0.11254024523717147,
+   "replay": 0.062165121906125415,
+   "interface_total": 0.003930446382267254,
+   "node_scaling": 0.10192237951258029,
+   "oracle": 0.003306145338837996,
+   "removed_replay": 0.500082197527134,
+   "removed_interface_total": 0.9912814599227916,
+   "removed_node_scaling": 0.08359018699112968,
+   "interface_beats_replay": 0.9609375,
+   "n": 1152
+  }
+ },
+ "B": {
+  "2": {
+   "pre": 0.0017553977020700457,
+   "none": 0.11322751631316412,
+   "replay": 0.055627050697125924,
+   "interface_total": 0.006430842491893458,
+   "node_scaling": 0.10646709263949256,
+   "oracle": 0.0017553977020700457,
+   "removed_replay": 0.5468060097492123,
+   "removed_interface_total": 0.937047216239692,
+   "removed_node_scaling": 0.03303005935574683,
+   "interface_beats_replay": 0.9322916666666666,
+   "n": 192
+  },
+  "4": {
+   "pre": 0.0018051884537125722,
+   "none": 0.08132782081919811,
+   "replay": 0.03321031432274379,
+   "interface_total": 0.004454737713757288,
+   "node_scaling": 0.07263227077874322,
+   "oracle": 0.0018051884537125722,
+   "removed_replay": 0.610989136595907,
+   "removed_interface_total": 0.9531605592712041,
+   "removed_node_scaling": 0.06504384228289128,
+   "interface_beats_replay": 0.9270833333333334,
+   "n": 192
+  },
+  "8": {
+   "pre": 0.0014909338671667393,
+   "none": 0.07121994882402737,
+   "replay": 0.02100990458874344,
+   "interface_total": 0.003007928925737912,
+   "node_scaling": 0.06132211209464739,
+   "oracle": 0.0014909338671667393,
+   "removed_replay": 0.7519266222610934,
+   "removed_interface_total": 0.9604861933789518,
+   "removed_node_scaling": 0.07584931388526692,
+   "interface_beats_replay": 0.8802083333333334,
+   "n": 192
+  }
+ },
+ "C": {
+  "1": {
+   "pre": 0.000354164504303501,
+   "none": 0.15512958340485664,
+   "replay": 0.0694076134383285,
+   "interface_total": 0.0003541645043035001,
+   "node_scaling": 0.03501454177465866,
+   "oracle": 0.000354164504303501,
+   "removed_replay": 0.5098179289525063,
+   "removed_interface_total": 1.0,
+   "removed_node_scaling": 0.7345377294365839,
+   "interface_beats_replay": 0.9635416666666666,
+   "n": 192
+  },
+  "4": {
+   "pre": 0.00015939869952576492,
+   "none": 0.11928033753410668,
+   "replay": 0.06686329878404362,
+   "interface_total": 0.002554083769015885,
+   "node_scaling": 0.10341202634073676,
+   "oracle": 0.00015939869952576492,
+   "removed_replay": 0.4515637432591611,
+   "removed_interface_total": 0.9712450794460662,
+   "removed_node_scaling": 0.13013123121054426,
+   "interface_beats_replay": 0.984375,
+   "n": 192
+  }
+ },
+ "D": {
+  "0.0275": {
+   "pre": 0.0017097900435715293,
+   "none": 0.15454518379658547,
+   "replay": 0.09655463151382405,
+   "interface_total": 0.0034200396699568775,
+   "node_scaling": 0.14130307413168927,
+   "oracle": 0.0017097900435715293,
+   "removed_replay": 0.3870935074672343,
+   "removed_interface_total": 0.9832118974221897,
+   "removed_node_scaling": 0.07559154973903469,
+   "interface_beats_replay": 0.9947916666666666,
+   "n": 192
+  },
+  "0.055": {
+   "pre": 0.0018051884537125722,
+   "none": 0.1275045379047676,
+   "replay": 0.0731032353503235,
+   "interface_total": 0.003754524602421499,
+   "node_scaling": 0.11247973169700494,
+   "oracle": 0.0018051884537125722,
+   "removed_replay": 0.44469711555625935,
+   "removed_interface_total": 0.9773572128431122,
+   "removed_node_scaling": 0.10929324306510535,
+   "interface_beats_replay": 0.9895833333333334,
+   "n": 192
+  },
+  "0.11": {
+   "pre": 0.0020320545372937283,
+   "none": 0.09917552533623897,
+   "replay": 0.05089006357964152,
+   "interface_total": 0.004260630139274471,
+   "node_scaling": 0.08408821283391847,
+   "oracle": 0.0020320545372937283,
+   "removed_replay": 0.5213682760790667,
+   "removed_interface_total": 0.9669751682896356,
+   "removed_node_scaling": 0.14473854641218917,
+   "interface_beats_replay": 0.96875,
+   "n": 192
+  },
+  "0.22": {
+   "pre": 0.002457802799489731,
+   "none": 0.0729877934363236,
+   "replay": 0.03254295541220249,
+   "interface_total": 0.004986147075110461,
+   "node_scaling": 0.058947055743985954,
+   "oracle": 0.002457802799489731,
+   "removed_replay": 0.6202109944691725,
+   "removed_interface_total": 0.948086484782588,
+   "removed_node_scaling": 0.18581848736668197,
+   "interface_beats_replay": 0.9010416666666666,
+   "n": 192
+  },
+  "0.45": {
+   "pre": 0.0030486979399563015,
+   "none": 0.0500158299018014,
+   "replay": 0.01745806289770881,
+   "interface_total": 0.005813608718859183,
+   "node_scaling": 0.037448800673295944,
+   "oracle": 0.0030486979399563015,
+   "removed_replay": 0.7724347344260347,
+   "removed_interface_total": 0.9095700847155729,
+   "removed_node_scaling": 0.2546763747018152,
+   "interface_beats_replay": 0.6927083333333334,
+   "n": 192
+  }
+ }
+}

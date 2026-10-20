@@ -582,6 +582,62 @@ equilibrium propagation and coupled learning (Scellier & Bengio 2017; Stern et a
 reading of in-situ backpropagation (Hughes et al. 2018), here with a second-harmonic sensor instead of an
 intensity sensor. The cost: one epoch = 9 phases × 460 t in a row, about 3× the simulation of a G8b epoch.
 
+### G10a — hologram or wires? · **neither, cleanly: the signal rides wavelength-scale structure, but it is not a narrow-band Bragg grating**
+`gates/g10a_hologram_or_wires.py` · `results/g10a_hologram_or_wires.json`
+
+Gemini read `g8b_wires.png` as a volume Bragg grating that routes crossing channels by diffraction at
+K = k_in − k_out. Testable. At ω = 1.0 in the m0 = 0.7 domain the wave has k ≈ 1.55 rad/cell (wavelength ≈ 4 cells), so
+forward × echo fringes have periods of 2–4 cells. Split each trained m into **coarse** (Gaussian low-pass, σ = 2 cells)
+and **fine** (the rest = the fringe band), rebuild media with the same total material, re-relax φ, read the 3 × 3
+transmission. Pre-stated: hologram → fine-only keeps the routing, coarse-only loses it, and the routing is narrow-band
+(Bragg width ≈ ±0.07 for a 31-cell crossing). Wires/refraction → the opposite.
+
+| trained medium | fine-band share of m's variance | trained: acc · T | coarse only | fine only | ω range with acc 1.0 |
+|---|---|---|---|---|---|
+| G8b computed teacher, seed 0 | 0.77 | 1.00 · 0.125 | 1.00 · **0.007** | 0.33 · 0.145 | 0.85 – 1.10 |
+| seed 1 | 0.81 | 1.00 · 0.185 | 0.33 · **0.008** | **1.00 · 0.191** | 0.85 – 1.05 |
+| seed 2 | 0.83 | 1.00 · 0.147 | 0.67 · **0.010** | 0.67 · 0.171 | 0.90 – 1.00 |
+| G9b physical teacher, seeds 0–2 | 0.88 – 0.90 | 0.67 / 1.00 / 0.67 · 0.16–0.19 | **0.002 – 0.006** | 0.67 / 0.67 / 0.67 · 0.07–0.11 | (only at 1.0, seed 1) |
+
+(Accuracy at T < 0.01 is noise-level: the untrained medium is at 0.005.)
+
+- **Not wires.** 77–90% of the learned structure is at the fringe scale. Remove it and the medium goes dark: transmission
+  falls 15–80× (0.13–0.19 → 0.002–0.010), as dark as the untrained medium, even with the coarse part at twice its
+  contrast. There are no smooth channels carrying the signal.
+- **Not a clean Bragg grating either.** The fine part alone keeps the transmission (0.07–0.19) but the full routing on only
+  1 of 3 G8b media, so the coarse part matters for which output wins. And the G8b routing holds over ω = 0.85–1.10,
+  wider than a Bragg selectivity of ±0.07 would allow. With only ~8 wavelengths across the box, that is not surprising.
+- Best description: a **wavelength-scale scattering medium**, like an inverse-designed photonic device. Gemini's
+  "texture, not wires" is right; "Bragg diffraction at K = k_in − k_out" is not shown.
+
+### G10b — canalization, and the real reason G8b was faint · **canalization: FAIL; the faintness was my unsettled gradient**
+`gates/g10b_canalization.py` · `results/g10b_canalization.json`
+
+Gemini's diagnosis of G8b's weak routes (target transmission 0.18 vs ~1.07 for a hand-drawn stripe): the gradient writer
+"gets lazy" once the target wins, and nature fixes that with rich-get-richer flow (rivers, self-focusing). Test: the same
+writer plus a conservative material flow up the forward-energy gradient,
+J = χ m(1 − m) ∇E − D∇m, Δm = −∇·J (zero flux at the edges, so it needs no global projection). Every field is now read
+after **400 t** of settling (G9a showed 150 t was not settled), so χ = 0 is also the first settled-gradient G8b.
+Pre-stated: C1 χ > 0 raises transmission without losing accuracy; C2 (Gemini's number) T ≥ 0.8 with full accuracy —
+my expectation: not reached.
+
+| writer | accuracy [3 seeds] | target transmission [per seed] | φ re-born |
+|---|---|---|---|
+| G8b as run (fields at 150 t) | 1.00 [1, 1, 1] | 0.18 | 0.89 |
+| **settled gradient, χ = 0** | 0.89 [1, 1, 0.67] | **0.63** [0.76, 0.89, 0.23] | 0.67 |
+| + canalization χ = 0.05 (D = 0.05) | 0.89 [1, 1, 0.67] | 0.71 [0.71, 1.24, 0.18] | 0.56 |
+| + canalization χ = 0.2 (D = 0.05) | 0.78 [0.67, 1, 0.67] | **0.03** | 0.67 |
+
+- **The faint routes were my bug, not lazy learning.** With settled fields the same writer builds routes 3.5× stronger
+  (0.63 mean; 0.76 and 0.89 on two seeds), within reach of the hand-drawn stripe. The price: less robust — one seed
+  of three misses a route, and re-born φ keeps less (0.67 vs 0.89).
+- **C1 fails.** χ = 0.05 changes nothing beyond seed scatter (0.71 vs 0.63); χ = 0.2 makes the medium dark (0.03).
+  Where the material went: χ = 0.2 smoothed the fringes away (fine-band share of m's variance 0.55–0.59, vs 0.81–0.87
+  at χ = 0), and G10a says the fringes carry the signal. Canalization fights the mechanism that works here.
+- **C2:** one seed of three (χ = 0.05, seed 1: T 1.24, accuracy 1.0). Not reliably.
+- Design flaw, stated: the χ > 0 arms also carry the diffusion D, the χ = 0 arm does not. Part of the smoothing may be D
+  alone; no D-only control was run.
+
 ## Ledger — corrections made on the way (kept on purpose)
 
 1. The morning scratch run reported 83% / 75% (macro / sub). It trained and tested the decoder on the same
@@ -622,6 +678,9 @@ intensity sensor. The cost: one epoch = 9 phases × 460 t in a row, about 3× th
     matrices showed why: one pair took all the material (seed 1: in1→out2 at 0.54, everything else ≈ 0.01). Changed
     to echoes that get louder when the output hears less (log objective, as in G8b), predictions unchanged, rerun as v2.
     v1 log kept: `results/g9b_v1_amplitude_objective.log`.
+15. G8b's "faint hologram" (target transmission 0.18) was blamed — by Gemini, and by me as "the writer found a faint
+    solution" — on the learning rule. G10b: with settled fields the same rule reaches 0.63 (0.76 / 0.89 on two seeds).
+    The faintness came from the unsettled-field bug of ledger 13.
 
 ## Prior art (subtract before claiming)
 
@@ -676,6 +735,9 @@ been checked against the literature beyond this list — treat as unverified nov
 - **G9:** the teacher can be moved into the medium — one clock, outputs that echo from their own measurement, a
   material that senses the 2ω part of its own activity — and it computes the gradient (0.86–0.92) if every phase
   is given time to ring down. Learning from it is weaker than from the computed teacher: 14/18 routes, 2/6 perfect.
+- **G10:** the learned medium is neither wires nor a clean Bragg grating: a wavelength-scale scattering texture carries
+  the signal (remove the fringes and it goes dark). With the gradient read correctly the routes are 3.5× stronger
+  (0.63); rich-get-richer canalization does not help and, strong, smooths the fringes away and kills transmission.
 
 ## Next gates
 
@@ -711,6 +773,8 @@ gates/g8_phiworld_wires.py       G8b medium, ports, writers, training loop
 gates/g8b_learning.py            G8b runner (10 arms x 3 seeds, ~45 min on 2 cores) · g8b_figure.py
 gates/g8c_reciprocity.py         G8c
 gates/g9_physical_teacher.py     G9a (python ... a) and G9b (python ... b, 5 arms x 3 seeds, ~2 h on 2 cores)
+gates/g10a_hologram_or_wires.py  G10a (coarse / fine decomposition of the saved media, omega sweep)
+gates/g10b_canalization.py       G10b (settled gradient + conservative material flow, ~40 min on 2 cores)
 results/*.json          raw numbers for every gate
 ```
 

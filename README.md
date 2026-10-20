@@ -316,6 +316,40 @@ mechanisms (G5b: drift; G6: continual learning) lose to standard machinery. The 
 data-blind approximation of what GPM learns. **The BrainBox line is about physical media** — substrates where
 weights cannot be read out, bases cannot be computed and copies cannot be kept — **not about better digital AI.**
 
+### G7a — does PhiWorld grow its own boxes? · **partly: it grows them, but they either churn or freeze into a few**
+`gates/g7a_phiworld_spectrum.py` · headless port of his 2025 phiworld2 equations, copied exactly:
+φ_tt = c²(φ)∇²φ − V′(φ) − γ∇⁴φ, c²(φ) = c₀/(1+κφ²) (mass slows the clock), V′ = −aφ + bφ³ (domains at ±√5),
+defaults κ = 5, a = 1, b = 0.2, γ = 0.02, dt = 0.08, periodic grid. Start from his "random" initial noise.
+
+**Mass-slows-the-clock prevents coarsening** (64×64, domains = connected regions with |φ| > 1, t = 1600):
+
+| damping | κ = 5 (his rule) | κ = 0 (control) |
+|---|---|---|
+| 0.001 (his GUI default) | **663–726 domains**, still active | **1 domain** by t ≈ 160–800 |
+| 0.003 | 1–3 | 1 |
+| 0.01 | 2–3 | 1 |
+| 0.03 | 4–7 (frozen) | 1 |
+| 0.1 | 5–10 (frozen) | 1 |
+
+**But the many domains are not persistent** (correction to my own first reading). At damping 0.001 only **52–56%** of
+pixels keep their sign after 4 time units (0.50 = unrelated pattern): the "organic" field in the screenshots is a
+churning state, not a set of boxes. Wherever domains *do* persist (sign kept 0.90–1.00 over 400 time units,
+damping ≥ 0.003), there are only 1–8 of them. The window between damping 0.001 and 0.003 is not resolved yet.
+
+Spectrum of the frozen states (48×48, relaxed to residual ~10⁻¹⁴, 3 seeds; no unstable modes):
+- Modes below the uniform-domain band edge √2 exist only because of walls, and they are wall-enriched
+  **5–8× relative to wall area** (κ = 5: 236–350 such modes, wall weight 0.14–0.16 vs wall area 0.02–0.04;
+  κ = 0: 68 modes, weight 0.69 vs area 0.08).
+- With κ = 5 the softest modes, which let walls drift, are stiffer: lowest frequency 0.86 (or 0.245 with one soft mode)
+  vs 0.176 at κ = 0. Suggestive of wall pinning, but the frozen geometries differ between runs, so not matched.
+- Note: PhiWorld is not a gradient system (c²(φ)∇²φ is not the derivative of any energy), so its frozen states
+  depend on κ, unlike ordinary φ⁴ domains.
+
+What this says for the box: the Clockfield rule *does* make the medium hold more than one block — the control
+always melts to one — so it is the ingredient that lets PhiWorld build boxes at all. What it does not yet give is
+**many blocks that stay put**, which is what an address system needs. Next: resolve damping 0.001–0.003, add
+Sol's slow material field m (memory that outlives the fast field), and track domain identity, not just counts.
+
 ## Ledger — corrections made on the way (kept on purpose)
 
 1. The morning scratch run reported 83% / 75% (macro / sub). It trained and tested the decoder on the same
@@ -331,6 +365,9 @@ weights cannot be read out, bases cannot be computed and copies cannot be kept �
    removed). An 8-bit snapshot with the same bit budget removes 100%. Control added; verdict reversed for digital AI.
 7. G6 v0 used a benchmark with no forgetting to fix (fine-tune 0.990). Redesigned to rotated-digits domain-IL
    after seeing v0; the verdict rule was kept unchanged and the redesign was written before rerunning.
+8. G7a first pass: the relaxed states had coarsened to stripes and the largest-gap "tier" detector was too crude;
+   replaced by sub-gap wall-bound mode counts. Then "~700 domains at his GUI damping" first read as persistent boxes;
+   a sign-persistence check showed they reshuffle within 4 time units. Both corrections are in G7a.
 
 ## Prior art (subtract before claiming)
 
@@ -375,7 +412,7 @@ been checked against the literature beyond this list — treat as unverified nov
 
 The AI claim is closed for now (G5b, G6). What remains is the world question — media that grow their own blocks:
 
-- **G7 — does PhiWorld grow its own boxes?** The old PhiWorld field (Mexican-hat potential, mass slows the clock,
+- **G7 — does PhiWorld grow its own boxes?** (G7a done, partly: see above.) The old PhiWorld field (Mexican-hat potential, mass slows the clock,
   biharmonic term) spontaneously forms ±√5 domains whose interiors are slow and whose walls are fast — the inverse
   of the hand-built BrainBox, where blocks are fast and bridges slow. Linearize around the domain state and measure:
   are there timescale tiers? Do domains act as content and walls as address under drift? Add a slow material field
@@ -396,6 +433,7 @@ gates/g5a_grown_box.py           G5a
 gates/g5b_classifier_drift.py    G5b
 gates/g6_continual.py            G6 v0 (ceiling, kept for the record)
 gates/g6b_continual_rotated.py   G6 (the informative run)
+gates/g7a_phiworld_spectrum.py   G7a (PhiWorld port, spectrum, coarsening, persistence)
 results/*.json          raw numbers for every gate
 ```
 

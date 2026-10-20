@@ -155,3 +155,38 @@ def run():
 
 if __name__ == "__main__":
     run()
+
+
+def persistence(kappa, damping, seed, n=64, t_start=800.0, lags=(4.0, 40.0, 400.0)):
+    """Do the domains stay the SAME domains? Fraction of pixels (within |phi|>1 at both times)
+    whose sign is unchanged after a lag, vs the 0.5 expected for unrelated patterns."""
+    p = dict(P, kappa=kappa)
+    Lp = lap_matrix(n)
+    rng = np.random.default_rng(seed)
+    phi = (rng.random(n * n) - 0.5) * 0.1; old = phi.copy(); dt = p["dt"]
+    snaps = {}
+    want = {int(round((t_start + L) / dt)): L for L in (0.0,) + tuple(lags)}
+    for k in range(1, max(want) + 1):
+        new = phi + (1 - damping * dt) * (phi - old) + dt ** 2 * accel(phi, Lp, p)
+        old, phi = phi, new
+        if k in want:
+            snaps[want[k]] = phi.copy()
+    ref = snaps[0.0]
+    out = {}
+    for L in lags:
+        a, b = ref, snaps[L]
+        m = (np.abs(a) > 1) & (np.abs(b) > 1)
+        out[L] = float((np.sign(a[m]) == np.sign(b[m])).mean()) if m.any() else float("nan")
+    return out
+
+
+if __name__ == "__main__" and os.environ.get("G7A_PERSIST"):
+    res_p = {}
+    for kappa in [5.0, 0.0]:
+        rows = [persistence(kappa, 0.001, s) for s in SEEDS]
+        res_p[str(kappa)] = rows
+        print(f"damping 0.001 kappa {kappa}: sign kept after lag (t from 800): " +
+              "; ".join(", ".join(f"{L:.0f}:{v:.2f}" for L, v in r.items()) for r in rows))
+    path = os.path.join(os.path.dirname(__file__), "..", "results", "g7a_phiworld_spectrum.json")
+    d = json.load(open(path)); d["persistence_damping0.001"] = res_p
+    json.dump(d, open(path, "w"), indent=1)

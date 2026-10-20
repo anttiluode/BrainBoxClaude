@@ -350,6 +350,167 @@ always melts to one — so it is the ingredient that lets PhiWorld build boxes a
 **many blocks that stay put**, which is what an address system needs. Next: resolve damping 0.001–0.003, add
 Sol's slow material field m (memory that outlives the fast field), and track domain identity, not just counts.
 
+### G7b — the damping window G7a left open · **a sharp transition, and the hot state's "boxes" are not real**
+`gates/g7b_damping_window.py` · his equations, 64×64 periodic, his noise init, 3 seeds
+
+| damping | domains t = 800 → 1240 | sign kept after 4 / 40 / 440 t | rms velocity |
+|---|---|---|---|
+| 0.001 (his GUI default) | 668–683 → 681–722 | 0.54–0.58 / 0.49–0.50 / 0.49–0.50 | 3.5–3.6 |
+| 0.0015 | 591–631 → 649–697 | 0.54–0.55 / ~0.50 / ~0.51 | 3.1 |
+| 0.002 | 501–553 → 586–661 | 0.60 / ~0.50 / ~0.51 | 2.8–2.9 |
+| **0.0025** | **37–134 → 40–279** | **0.91–0.98 / 0.85–0.96 / 0.75–0.93** | 1.0–1.9 |
+| 0.003 | 8–24 → 2–10 | 0.98–0.99 / 0.96–0.98 / 0.90–0.91 | 0.6–0.75 |
+| 0.005 | 3 → 3 | 1.00 / 0.99 / 0.87–0.99 | 0.17–0.27 |
+
+- Between 0.002 and 0.0025 the field jumps from a hot, fully reshuffling state (sign memory gone within 40 t) to a
+  slow one whose domains persist. 0.0025 sits right at the edge: seed-to-seed spread is large (37 vs 134 domains).
+- **Most of the hot state's "domains" are fluctuations, not boxes.** Take the hot state (damping 0.0025, 48×72,
+  263 / 124 / 63 domains) and quench it with strong damping: 6–12 / 3–8 / 2–3 survive. A cold PhiWorld at his
+  parameters holds only a handful of domains.
+
+### G8.0 — Grok's `brain_laplacian`, tested · **the code does not do what the description says**
+`gates/g8_0_operator.py` · `brainbox/phimedium.py` (corrected operator)
+
+Grok (October 2026) proposed giving PhiWorld a slow material field *m* and an anisotropic operator
+∇·(σ(m,φ)∇φ), σ = σ₀I + m(α n nᵀ + β t tᵀ), with code. At m = 0 any such operator must equal the plain
+Laplacian PhiWorld uses.
+
+| check | true Laplacian | Grok's code | corrected (face fluxes) |
+|---|---|---|---|
+| Gaussian, value at centre | −0.123 | **+0.118** | −0.123 |
+| correlation with the true Laplacian | 1 | **−0.9998** | 1.000 |
+| checkerboard (finest grid mode) | 8 | **0** | 8 |
+| on a straight wall (m = 1): conductance across / along | — | **9.0 / 1.3** | 1.3 / 9.0 |
+
+- **Sign flipped:** the divergence is taken as f[i−1] − f[i+1]; the operator is an anti-Laplacian (backward diffusion).
+- **Spacing-2 stencil:** centred differences applied twice skip neighbours and cannot see the checkerboard mode.
+- **Wrong direction:** n = ∇φ/|∇φ| points *across* a wall, so α ≫ β on n nᵀ conducts across walls, not along them.
+- Corrected version: forward differences on cell faces, face conductances, zero boundary flux. Equal to the 5-point
+  Laplacian at σ = 1 (difference 4·10⁻¹⁵), conservative, self-adjoint. (Off-diagonal σ_xy dropped; exact for
+  axis-aligned walls.)
+
+### G8a — are walls wires? is an m-stripe a wire? · **domains insulate; m-stripes are wires; his walls are not**
+`gates/g8a_wires.py` · 32×48 box, absorbing edges, damping 0.005 · drive the middle input, read the middle output
+31 cells away (and the two neighbouring outputs = leak) · lock-in amplitude / drive amplitude ·
+m couples through the gap: a → a(1 − m), so a domain's small-signal gap is √(2a(1 − m))
+
+| medium | κ = 5 (his rule), best ω | leak | κ = 0, best ω | leak |
+|---|---|---|---|---|
+| one domain, m = 0 (gap √2) | **< 10⁻⁴** at every ω | 0 | ≤ 0.004 | ≤ 0.001 |
+| one domain, m = 0.7 (the G8b start) | 0.016 (ω 0.8) | 0.015 | 1.27 (ω 0.8) | 0.69 |
+| **a wall** (+ above, − below), m = 0 | **< 10⁻⁴** at every ω | 0 | **0.70** (ω 0.8) | 0.0001 |
+| m = 1 stripe, width 2 | 0.045 (ω 1.2) | 0 | 0.59 (ω 1.2) | 0.005 |
+| **m = 1 stripe, width 4** | **1.07** (ω 1.0) | **0** | 2.95 (ω 1.2) | 0.011 |
+| m = 1 stripe, width 6 | 7.4 (ω 0.8, resonance) | 0 | 4.07 (ω 1.0) | 0.007 |
+
+ω tested: 0.6, 0.8, 1.0, 1.2 (and for the κ = 5 wall also 0.2–1.7: all < 10⁻⁴). Values above 1 are resonances of the
+finite stripe (its ends reflect), not gain.
+
+- **P1 pass:** a bare domain carries nothing below its gap. With mass-slows-the-clock the insulation is total:
+  every stripe has **zero** leak at κ = 5.
+- **P2 fails for his rule.** At κ = 5 a wall is a **one-cell step** (+2.0 → −2.0 between neighbouring pixels): the wall
+  width √(c²/2a) is ~0.15 cells because the clock is so slow inside domains. There is no wall interior to carry a
+  signal. At κ = 0 walls are a few cells wide and are good wires (0.70, leak 10⁻⁴). So in PhiWorld as he wrote it,
+  **Grok's "walls are highways" is false**: the highways have to be made of m.
+- **P3 pass:** an m = 1 stripe ≥ 4 cells wide carries the signal end to end with zero leak to the neighbours.
+
+### G8b — can PhiWorld wire itself? · **PASS with an outcome-gated writer in a reciprocal medium; every writer without an outcome signal stays at chance**
+`gates/g8_phiworld_wires.py` (medium, writers) · `gates/g8b_learning.py` (runner) · `gates/g8b_figure.py` ·
+`results/g8b_learning.json`, `results/g8b_wires.png`
+
+Same box as G8a. Three inputs on the left, three outputs on the right. The mapping to learn is
+in0→out1, in1→out2, in2→out0: in 2-D every route has to cross another one. Nothing is wired by hand.
+The medium is only **driven**: forward runs (drive input k at ω = 1.0) and echo runs (drive output j, the
+return ping). A slow field m (the gap closer from G8a) is written from those runs. Total m is conserved
+(Σm = 0.7 × area): a writer can only move material, never add it. 60 epochs, the same step size for every
+writer. Read-out: drive input k alone, measure all three outputs → T[k, j]. Accuracy = the strongest output is
+the right one (chance 0.33).
+
+Writers:
+- **three-factor:** Δm(x) = Σ_kj w_kj · Re(conj(T_kj) · A_fwd,k(x) · A_echo,j(x)). Forward field × echo field at x
+  (local, phase-sensitive) × **one outcome number per pair** (w = 2/|T_k,target|² for the right output,
+  −1/Σ_j|T_kj|² for every output). If the medium is reciprocal this is the exact gradient of
+  Σ_k [2 log|T_k,target|² − log Σ_j |T_kj|²].
+- **coincidence (Hebbian):** Δm ∝ |A_fwd,k| · |A_echo,target(k)|, each pair writing the same total. This is the
+  forward × echo rule I proposed before this gate. No outcome number.
+- **forward only:** Δm ∝ |A_fwd,k|² (no echo). **grok:** Δm ∝ |∇φ| (all walls, no drive). **no learning.**
+
+Media: his PhiWorld rule c²(φ)∇²φ (κ = 5), the **variational** form of the same rule (κ = 5, see G8c), and κ = 0.
+
+| writer · medium | accuracy (3 seeds) | target transmission | target / other outputs |
+|---|---|---|---|
+| **three-factor · variational κ = 5** | **1.00** [1, 1, 1] | **0.18** | **4.0** |
+| three-factor · variational κ = 5, uniform start (no PhiWorld birth) | 1.00 [1, 1, 1]* | 0.19 | 4.2 |
+| three-factor · his form κ = 5 | 0.56 [1, 0.33, 0.33] | 0.05 | 1.7 |
+| three-factor · κ = 0 | 1.00 [1, 1, 1]* | 2.07 | 6.5 |
+| three-factor · variational κ = 5, trained on a **different** mapping | **0.00** [0, 0, 0] | 0.05 | 0.5 |
+| coincidence (Hebbian) · variational κ = 5 | 0.33 [0.67, 0, 0.33] | 0.016 | 1.1 |
+| coincidence (Hebbian) · his form κ = 5 | 0.11 [0, 0.33, 0] | 0.008 | 0.9 |
+| forward only · variational κ = 5 | 0.33 [0, 0.67, 0.33] | 0.033 | 1.3 |
+| grok \|∇φ\| · variational κ = 5 | 0.44 [0.33, 0.33, 0.67] | 0.027 | 2.4 |
+| no learning | 0.33 | 0.005 | 1.3 |
+
+\* κ = 0 and the uniform start are deterministic: every seed relaxes to the same single domain, so their three
+"seeds" are one run repeated. The independent-seed evidence is the variational κ = 5 row.
+
+**Is the memory in m?** Two tests on the trained three-factor media:
+
+| | trained | φ re-born (new noise, hot phase, cooled; m kept) | m shuffled (same values, scrambled positions) |
+|---|---|---|---|
+| variational κ = 5 | 1.00 (T 0.18) | **0.89** [0.67, 1, 1] (T 0.14) | **0.22** (T 0.01) |
+| his form κ = 5 | 0.56 | 0.78 | 0.56 (T 0.006, noise level) |
+| κ = 0 | 1.00 (T 2.07) | 1.00 (T 1.98) | 0.78 (T 0.32) |
+
+Pre-stated (after the prototypes in ledger 9–11, before this run):
+- **Q1 pass:** three-factor in a reciprocal medium learns the crossing mapping on 3/3 independent seeds.
+  Not a blind prediction: the prototypes had already shown it on seed 0.
+- **Q2 pass:** his non-reciprocal form does worse with the same writer (0.56, one seed of three).
+- **Q3 pass:** Hebbian coincidence (0.33 / 0.11), forward-only (0.33), Grok's rule (0.44) and no learning (0.33) all
+  sit at chance. **Forward field × return ping is not enough.** What makes it work is the per-pair outcome number
+  and the phase.
+- **Q4 pass (variational):** a newly born φ keeps 0.89; scrambling m drops to 0.22; training on another mapping gives
+  0.00. The mapping lives in where the material sits, and survives a complete rebirth of the fast field.
+  Q4 is **only partial at κ = 0**: a shuffled m still routes 0.78 at a sixth of the transmission. Part of the
+  κ = 0 result does not depend on where m sits; not resolved.
+
+What it is and is not:
+- **Not clean wires.** The written m is a diffuse, hologram-like texture with faint diagonal channels
+  (`results/g8b_wires.png`). The learned target transmission is 0.18 against 1.07 for the hand-drawn m-stripe of
+  G8a. The writer found *a* solution, not the wiring diagram a person would draw.
+- **PhiWorld's domains are not needed.** Starting from one uniform domain works as well (1.00, T 0.19). The κ = 5
+  clock makes the medium a better insulator (G8a) and a worse conductor: κ = 0 transmits 10× more.
+- The outcome number is one global scalar per input–output pair, broadcast to every point (a third factor, like a
+  neuromodulator). It is not local. Forward and echo runs are separate runs from the same state; doing both at once
+  (e.g. at two frequencies) is not tested. K = 3, 2-D, one box size.
+- Prior art: this is in-situ adjoint training of a wave medium (Hughes et al., *Optica* 2018; Hughes et al.,
+  *Science Advances* 2019, "Wave physics as an analog recurrent neural network"), with a three-factor plasticity
+  reading (Frémaux & Gerstner 2016) and physical "coupled learning" (Stern et al., *PRX* 2021). New here is only the
+  medium: PhiWorld, and what its clock rule does to the echo (G8c).
+
+### G8c — is the return ping the adjoint? · **not in his PhiWorld; yes in the variational form of the same rule**
+`gates/g8c_reciprocity.py` · `brainbox/phimedium.py: clock_variational`
+
+Echo-based learning uses the field radiated *from* an output as the sensitivity of that output *to* every point.
+That is true only if transmission is reciprocal: T(k → j) = T(j → k). His rule φ_tt = c²(φ)∇²φ + … is not the
+force of any energy (G7a), so around a non-uniform background its linearisation is not symmetric (asymmetry 0.11 of
+the largest entry on a random 8×9 field). The **variational** version of "mass slows the clock" comes from the energy
+½c²(φ)|∇φ|²: φ_tt = ∇·(c²(φ)∇φ) − ½c²′(φ)|∇φ|² − V′(φ) − γ∇⁴φ. On the grid: face-averaged c², exact discrete
+gradient (checked against −∂E/∂φ to 2·10⁻⁹), symmetric linearisation (4·10⁻¹¹), identical to his rule at κ = 0.
+
+Reciprocity error Σ|T_kj − T′_jk| / Σ|T_kj| (drive k read j vs drive j read k):
+
+| m | his form κ = 5 | variational κ = 5 | κ = 0 |
+|---|---|---|---|
+| uniform (uniform background) | 0.000 | 0.000 | 0.000 |
+| random (m0 + 0.2 noise) | **0.40** | 0.03 | 0.002 |
+| trained (G8b, variational, seed 0) | 0.10 | 0.04 | 0.002 |
+| trained (G8b, his form, seed 0) | 0.14 | 0.04 | 0.002 |
+
+The variational residual (3–4%) is not zero. Most likely cause: finite drive amplitude (nonlinearity) and slow
+settling at κ = 5; not checked further. **Mass-slows-the-clock as he wrote it breaks reciprocity, so in his
+PhiWorld the return ping is not a correct teacher.** Writing the same idea as an energy restores it, and the
+learning (G8b, 0.56 → 1.00).
+
 ## Ledger — corrections made on the way (kept on purpose)
 
 1. The morning scratch run reported 83% / 75% (macro / sub). It trained and tested the decoder on the same
@@ -369,6 +530,21 @@ Sol's slow material field m (memory that outlives the fast field), and track dom
    replaced by sub-gap wall-bound mode counts. Then "~700 domains at his GUI damping" first read as persistent boxes;
    a sign-persistence check showed they reshuffle within 4 time units. Both corrections are in G7a.
 
+9. G8 lock-in, first version: it multiplied the *static* background field by sin/cos over a non-whole number of
+   periods, giving a fake uniform "transmission" of 0.13 everywhere, identical for every medium. Fixed: subtract the
+   starting state, integrate over whole periods.
+10. G8 writer prototypes (scratch, not in the gate): pure intensity Hebbian in a reflecting box with m0 = 0.9 built
+    **one hub joining all six ports** (a soma, not a switchboard), for crossing and non-crossing mappings alike.
+    Per-pair normalisation and a contrastive term did not fix it; shrinking the material budget made the medium go
+    dark before any route formed. The gate's settings (absorbing edges, m0 = 0.7, ω = 1.0, conserved total, no pruning)
+    were chosen after these failures.
+11. The three-factor sign. Two finite-difference checks (log of transmissions ~10⁻⁵) pointed to −g; trained with −g
+    the medium learned the **inverse** mapping (κ = 0: accuracy 0, every input sent to the wrong neighbour).
+    The derived sign (+g; a relaxed domain's gap closes with m, δV″ = −2a δm) learns. The finite-difference checks
+    were too noisy to trust; the gate uses the derived sign.
+12. G8b's predictions were written after the prototypes had shown the variational and κ = 0 arms learning on seed 0,
+    so Q1 is a replication across seeds, not a blind prediction.
+
 ## Prior art (subtract before claiming)
 
 - Slow Laplacian eigenvectors as coordinates: spectral clustering, Laplacian eigenmaps.
@@ -378,6 +554,11 @@ Sol's slow material field m (memory that outlives the fast field), and track dom
   Patel et al. 2012.
 - Slow phase as a slot address (PAC): Lisman & Jensen, theta–gamma code.
 - One-point read-out losing interior information: the Calderón problem / EIT.
+- Training a wave medium's material by forward × adjoint fields: Hughes, Minkov, Williamson & Fan, *Optica* 2018
+  (in-situ backpropagation); Hughes, Williamson, Minkov & Fan, *Science Advances* 2019 (wave physics as an RNN).
+- Local learning in physical networks: coupled learning (Stern et al., *PRX* 2021); equilibrium propagation
+  (Scellier & Bengio 2017); three-factor plasticity (Frémaux & Gerstner 2016).
+- Self-organising transport networks from use: *Physarum* (Tero et al., *Science* 2010).
 
 What is not obviously in that list: **two plasticities with two meanings** in one passive medium —
 content written inside blocks, addresses written in the bridges (G3), the *interface total* as the
@@ -407,16 +588,24 @@ been checked against the literature beyond this list — treat as unverified nov
 - **Bottom line after G0–G6:** the measured mechanisms (free addresses from weak coupling, interface totals as the
   conserved quantity, growth writing addresses) are real **physical-media** results. As digital-AI methods they lose
   to cheap standard controls. Claim size for AI: none yet.
+- **PhiWorld, G7b–G8c:** his field at his parameters makes only a handful of real domains once it cools, and its walls
+  are one pixel thick, so they cannot carry a signal. Domains are excellent insulators. A slow material field that
+  closes the gap makes wires (G8a). Driving the medium plus a return ping plus **one outcome number per input–output
+  pair** writes a routing that crosses itself, on 3/3 seeds, and the routing survives a full rebirth of the fast
+  field (G8b). Forward × echo alone — the rule proposed before the test — does not: chance. The echo is a correct
+  teacher only if the medium is reciprocal; his clock rule is not, its variational form is (G8c).
+  Claim size: a 3 × 3 routing in a 32 × 48 box. A self-wiring medium, not a brain.
 
 ## Next gates
 
-The AI claim is closed for now (G5b, G6). What remains is the world question — media that grow their own blocks:
-
-- **G7 — does PhiWorld grow its own boxes?** (G7a done, partly: see above.) The old PhiWorld field (Mexican-hat potential, mass slows the clock,
-  biharmonic term) spontaneously forms ±√5 domains whose interiors are slow and whose walls are fast — the inverse
-  of the hand-built BrainBox, where blocks are fast and bridges slow. Linearize around the domain state and measure:
-  are there timescale tiers? Do domains act as content and walls as address under drift? Add a slow material field
-  (Sol's suggestion) and test history-dependent responses against a reservoir baseline.
+- **G9 — make the teacher physical.** In G8b the outcome number is computed outside the medium and broadcast, and the
+  forward and echo runs are separate runs from a copied state. Next: forward and echo at the same time on two
+  frequencies, and the outcome as a field the outputs emit (a diffusing "reward" the medium itself carries).
+  If the routing survives that, nothing in the loop is outside the medium.
+- **G10 — scale and crossing.** K = 3 in 2-D is a toy. Does the conserved-material writer reach K = 8? Crossing
+  routes leak in 2-D; does a third dimension (or a folded sheet) remove that cost?
+- **Against a baseline.** The same writer in a plain linear gapped medium (no Mexican hat) — does PhiWorld's
+  non-linearity add anything to G8b, or only the insulation?
 
 ## Layout
 
@@ -434,7 +623,14 @@ gates/g5b_classifier_drift.py    G5b
 gates/g6_continual.py            G6 v0 (ceiling, kept for the record)
 gates/g6b_continual_rotated.py   G6 (the informative run)
 gates/g7a_phiworld_spectrum.py   G7a (PhiWorld port, spectrum, coarsening, persistence)
+gates/g7b_damping_window.py      G7b
+brainbox/phimedium.py   PhiWorld + slow field m: his equations, the variational clock, face-flux operators, lock-in
+gates/g8_0_operator.py           G8.0 (Grok's operator vs the corrected one)
+gates/g8a_wires.py               G8a
+gates/g8_phiworld_wires.py       G8b medium, ports, writers, training loop
+gates/g8b_learning.py            G8b runner (10 arms x 3 seeds, ~45 min on 2 cores) · g8b_figure.py
+gates/g8c_reciprocity.py         G8c
 results/*.json          raw numbers for every gate
 ```
 
-Requires numpy and scipy. Each gate runs in seconds on a laptop.
+Requires numpy and scipy (matplotlib for the figure). G0–G7a run in seconds; G7b and G8 gates take minutes.

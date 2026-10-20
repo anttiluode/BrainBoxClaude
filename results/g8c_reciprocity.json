@@ -1,0 +1,82 @@
+{
+ "operator_checks": {
+  "force_minus_dEdphi_max_err": 2.0688377677657854e-09,
+  "asymmetry_variational": 4.2144231568009335e-11,
+  "asymmetry_his_form": 0.10889191114786038,
+  "kappa0_equals_lap5": 8.881784197001252e-16
+ },
+ "reciprocity": [
+  {
+   "form": "phiworld",
+   "kappa": 5.0,
+   "medium": "uniform m",
+   "reciprocity_error": 0.00010679243726475029
+  },
+  {
+   "form": "phiworld",
+   "kappa": 5.0,
+   "medium": "random m",
+   "reciprocity_error": 0.40440037547509655
+  },
+  {
+   "form": "phiworld",
+   "kappa": 5.0,
+   "medium": "trained m (variational)",
+   "reciprocity_error": 0.10314221484634134
+  },
+  {
+   "form": "phiworld",
+   "kappa": 5.0,
+   "medium": "trained m (his form)",
+   "reciprocity_error": 0.13537122641308358
+  },
+  {
+   "form": "variational",
+   "kappa": 5.0,
+   "medium": "uniform m",
+   "reciprocity_error": 0.00012630932520079653
+  },
+  {
+   "form": "variational",
+   "kappa": 5.0,
+   "medium": "random m",
+   "reciprocity_error": 0.033917011481334094
+  },
+  {
+   "form": "variational",
+   "kappa": 5.0,
+   "medium": "trained m (variational)",
+   "reciprocity_error": 0.043429101279198454
+  },
+  {
+   "form": "variational",
+   "kappa": 5.0,
+   "medium": "trained m (his form)",
+   "reciprocity_error": 0.03515181897917221
+  },
+  {
+   "form": "phiworld",
+   "kappa": 0.0,
+   "medium": "uniform m",
+   "reciprocity_error": 0.0003554779688525218
+  },
+  {
+   "form": "phiworld",
+   "kappa": 0.0,
+   "medium": "random m",
+   "reciprocity_error": 0.0016020340534690868
+  },
+  {
+   "form": "phiworld",
+   "kappa": 0.0,
+   "medium": "trained m (variational)",
+   "reciprocity_error": 0.0017794183030284954
+  },
+  {
+   "form": "phiworld",
+   "kappa": 0.0,
+   "medium": "trained m (his form)",
+   "reciprocity_error": 0.0018457844906833523
+  }
+ ]
+}

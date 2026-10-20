@@ -1,0 +1,25 @@
+{
+ "gaussian_centre": {
+  "true": -0.12306706209462348,
+  "grok": 0.11750309741540466,
+  "ours": -0.12306706209462348
+ },
+ "gaussian_corr_with_true": {
+  "grok": -0.9997545232633818,
+  "ours": 1.0
+ },
+ "checkerboard": {
+  "true": 8.0,
+  "grok": 0.0,
+  "ours": 8.0
+ },
+ "ours_sigma1_max_abs_diff_from_lap5": 3.552713678800501e-15,
+ "ours_sum_with_random_sigma": 1.5987211554602254e-14,
+ "ours_self_adjoint_gap": 0.0,
+ "on_vertical_wall_m1": {
+  "ours_across": 1.2999999993573508,
+  "ours_along": 8.999999984516009,
+  "grok_across": 8.999999999984515,
+  "grok_along": 1.2999999999994194
+ }
+}

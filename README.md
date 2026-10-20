@@ -638,6 +638,39 @@ my expectation: not reached.
 - Design flaw, stated: the χ > 0 arms also carry the diffusion D, the χ = 0 arm does not. Part of the smoothing may be D
   alone; no D-only control was run.
 
+### G11 — NCM's corruption trick vs the interface homeostat · **the trick buys nothing here; the homeostat still removes 97–99%**
+`gates/g11_noise_aware_vs_homeostat.py` · `results/g11_noise_aware_vs_homeostat.json` · v1 log `results/g11_v1_naive_noise_aware.log`
+
+NCM (arXiv 2610.14162) trains its generator with some coarse codes swapped for wrong ones, so finer levels learn to cope
+with errors above them. Gemini proposed the same for Sol's bridge-drift failure: drift the bridges *while writing*. That is
+noise-aware training (the analog-hardware version: Joshi et al. 2020). Test on Sol's own medium and local writer (G4 port,
+reproduction checked first). Noise-aware writer = Sol's writer, but every step averages its correction over 16 drifted copies
+of the medium (training drift 0.2; a step on the **expected** error; 16× the reads, stated). Then fresh drift never seen in
+training, the **same** draw for both writers, 384 cases × 3 draws per row.
+
+Share of the clean writer's drift damage removed:
+
+| drift (test) | P bridges per interface | noise-aware writing alone | interface homeostat alone | both |
+|---|---|---|---|---|
+| 0.2 | 1 (Sol's medium; homeostat degenerate) | **−0.13** | 1.00 | 0.93 |
+| 0.2 | 2 / 4 / 8 | **−0.01 / −0.02 / −0.00** | **0.97 / 0.98 / 0.99** | 0.88 / 0.90 / 0.86 |
+| 0.4 | 1 (degenerate) | −0.04 | 1.00 | 0.95 |
+| 0.4 | 2 / 4 / 8 | 0.00 / −0.00 / +0.01 | 0.97 / 0.98 / 0.99 | 0.94 / 0.95 / 0.93 |
+
+Noise-aware beats the clean writer on 47–52% of drift draws: a coin flip. Its price: clean (undrifted) error 1.6–4× higher
+(e.g. P = 4: 0.0041 → 0.0109).
+
+Pre-stated (before v1): **N1 fails** (no drift damage removed at all, not even "some"). **N2 fails, mildly** (both 0.86–0.95 <
+homeostat alone 0.97–0.99, because noise-aware content starts worse). **N3 passes.** N4 moot. **N5 fails** — on Sol's own medium
+the gain is not modest, it is zero or negative.
+
+Why, as far as this shows: the trick works in NCM because the finer levels **see** the corrupted coarse codes at generation time
+and correct for them — it is error correction conditioned on the error. In the box the content is a fixed set of conductances; it
+cannot see which way the bridges drifted, and four edges inside a block cannot make a read-out that has to cross a bridge
+insensitive to a random factor on that bridge. The best content under random drift is about the content without drift. The
+homeostat is the part that does see the drift: it senses each interface's total. Robustness has to come from something that
+senses, not from writing harder.
+
 ## Ledger — corrections made on the way (kept on purpose)
 
 1. The morning scratch run reported 83% / 75% (macro / sub). It trained and tested the decoder on the same
@@ -681,6 +714,9 @@ my expectation: not reached.
 15. G8b's "faint hologram" (target transmission 0.18) was blamed — by Gemini, and by me as "the writer found a faint
     solution" — on the learning rule. G10b: with settled fields the same rule reaches 0.63 (0.76 / 0.89 on two seeds).
     The faintness came from the unsettled-field bug of ledger 13.
+16. G11 v1 used one drifted copy per noise-aware step. Sol's step is a full normalised correction, so the writer fitted the
+    last random drift: clean error ×15 and no protection. That tested a strawman, so v2 averages each step over 16 copies.
+    The predictions N1–N5 were written before v1 and kept unchanged for v2. v1 log kept.
 
 ## Prior art (subtract before claiming)
 
@@ -738,6 +774,8 @@ been checked against the literature beyond this list — treat as unverified nov
 - **G10:** the learned medium is neither wires nor a clean Bragg grating: a wavelength-scale scattering texture carries
   the signal (remove the fringes and it goes dark). With the gradient read correctly the routes are 3.5× stronger
   (0.63); rich-get-richer canalization does not help and, strong, smooths the fringes away and kills transmission.
+- **G11:** NCM's corruption trick (write under simulated drift) removes none of the drift damage on Sol's medium and costs clean
+  accuracy; the interface homeostat removes 97–99%. Content that cannot sense the drift cannot be pre-hardened against it.
 
 ## Next gates
 
@@ -775,6 +813,7 @@ gates/g8c_reciprocity.py         G8c
 gates/g9_physical_teacher.py     G9a (python ... a) and G9b (python ... b, 5 arms x 3 seeds, ~2 h on 2 cores)
 gates/g10a_hologram_or_wires.py  G10a (coarse / fine decomposition of the saved media, omega sweep)
 gates/g10b_canalization.py       G10b (settled gradient + conservative material flow, ~40 min on 2 cores)
+gates/g11_noise_aware_vs_homeostat.py  G11 (on the G4 port of Sol's medium; ~1 h single core)
 results/*.json          raw numbers for every gate
 ```
 

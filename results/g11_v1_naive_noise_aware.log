@@ -1,0 +1,11 @@
+P1 reproduction of Sol G0: local 0.00155, post-drift [ 0.0402 -0.1467 -0.     -0.1457], replay [ 0.000e+00 -1.165e-01 -1.000e-04 -1.037e-01] -> OK
+
+errors = mean |relative read-out error| over 384 cases x 3 drift draws; 'removed' = share of the clean writer's drift damage removed
+drift 0.2 P=1 (homeostat degenerate): pre clean 0.0154 noisy 0.1007 | drifted, no repair: clean 0.1400 noisy 0.1571 | homeostat: clean 0.0154 noisy 0.1007 | removed: noise-aware -0.54  homeostat +1.00  both -0.16 | noise-aware wins per draw 0.34
+drift 0.2 P=2: pre clean 0.0035 noisy 0.0552 | drifted, no repair: clean 0.1348 noisy 0.1358 | homeostat: clean 0.0056 noisy 0.0559 | removed: noise-aware -0.14  homeostat +0.98  both +0.42 | noise-aware wins per draw 0.42
+drift 0.2 P=4: pre clean 0.0041 noisy 0.0569 | drifted, no repair: clean 0.1198 noisy 0.1191 | homeostat: clean 0.0052 noisy 0.0573 | removed: noise-aware -0.23  homeostat +0.99  both +0.25 | noise-aware wins per draw 0.45
+drift 0.2 P=8: pre clean 0.0033 noisy 0.0596 | drifted, no repair: clean 0.1149 noisy 0.1162 | homeostat: clean 0.0039 noisy 0.0598 | removed: noise-aware -0.19  homeostat +0.99  both +0.25 | noise-aware wins per draw 0.45
+drift 0.4 P=1 (homeostat degenerate): pre clean 0.0154 noisy 0.0903 | drifted, no repair: clean 0.2792 noisy 0.2646 | homeostat: clean 0.0154 noisy 0.0903 | removed: noise-aware -0.10  homeostat +1.00  both +0.53 | noise-aware wins per draw 0.44
+drift 0.4 P=2: pre clean 0.0035 noisy 0.0537 | drifted, no repair: clean 0.2604 noisy 0.2470 | homeostat: clean 0.0088 noisy 0.0571 | removed: noise-aware -0.01  homeostat +0.97  both +0.68 | noise-aware wins per draw 0.50
+drift 0.4 P=4: pre clean 0.0041 noisy 0.0543 | drifted, no repair: clean 0.2423 noisy 0.2264 | homeostat: clean 0.0068 noisy 0.0560 | removed: noise-aware +0.01  homeostat +0.98  both +0.68 | noise-aware wins per draw 0.54
+drift 0.4 P=8: pre clean 0.0033 noisy 0.0592 | drifted, no repair: clean 0.2343 noisy 0.2153 | homeostat: clean 0.0046 noisy 0.0602 | removed: noise-aware +0.01  homeostat +0.99  both +0.64 | noise-aware wins per draw 0.57

@@ -1,0 +1,125 @@
+{
+ "reproduction": {
+  "local_mean_err": 0.0015499095523588086,
+  "post_drift": [
+   0.040192592460958486,
+   -0.14665131484556054,
+   -2.1579150786576995e-05,
+   -0.14567841911438803
+  ],
+  "replay": [
+   4.1284101871222056e-05,
+   -0.11650959157490598,
+   -0.0001474842290215883,
+   -0.10369215825795948
+  ]
+ },
+ "s_train": 0.2,
+ "noise_writer": "averaged",
+ "rows": {
+  "P1_s0.2": {
+   "pre_clean": 0.015411515402798124,
+   "pre_noisy": 0.02511919772679258,
+   "clean_none": 0.14128847007966885,
+   "noisy_none": 0.14584176028880944,
+   "clean_homeo": 0.0154115154027981,
+   "noisy_homeo": 0.0251191977267926,
+   "removed_noisy_none": -0.13014367165833118,
+   "removed_clean_homeo": 1.0000000000000004,
+   "removed_noisy_homeo": 0.9342426330142948,
+   "noisy_none_beats_clean_none": 0.4869791666666667,
+   "n": 1152
+  },
+  "P2_s0.2": {
+   "pre_clean": 0.003520173769389288,
+   "pre_noisy": 0.0129854100665898,
+   "clean_none": 0.12631084821045804,
+   "noisy_none": 0.1258753174119057,
+   "clean_homeo": 0.005774382612120385,
+   "noisy_homeo": 0.013535796736056786,
+   "removed_noisy_none": -0.008312215994022926,
+   "removed_clean_homeo": 0.9734557478561331,
+   "removed_noisy_homeo": 0.8841373937156431,
+   "noisy_none_beats_clean_none": 0.4835069444444444,
+   "n": 1152
+  },
+  "P4_s0.2": {
+   "pre_clean": 0.004091666544083123,
+   "pre_noisy": 0.010926210746440092,
+   "clean_none": 0.12208550798931303,
+   "noisy_none": 0.12181865834944745,
+   "clean_homeo": 0.0052885459244893145,
+   "noisy_homeo": 0.011242712750969434,
+   "removed_noisy_none": -0.01930226229667593,
+   "removed_clean_homeo": 0.9844981195677553,
+   "removed_noisy_homeo": 0.9009671054554685,
+   "noisy_none_beats_clean_none": 0.4722222222222222,
+   "n": 1152
+  },
+  "P8_s0.2": {
+   "pre_clean": 0.003306145338837996,
+   "pre_noisy": 0.012976426373551947,
+   "clean_none": 0.11101295117379087,
+   "noisy_none": 0.1101050981979341,
+   "clean_homeo": 0.0038160247704440795,
+   "noisy_homeo": 0.013137641751793855,
+   "removed_noisy_none": -0.0032962917365541586,
+   "removed_clean_homeo": 0.9925793779209696,
+   "removed_noisy_homeo": 0.8631805165617092,
+   "noisy_none_beats_clean_none": 0.5060763888888888,
+   "n": 1152
+  },
+  "P1_s0.4": {
+   "pre_clean": 0.015411515402798124,
+   "pre_noisy": 0.02582433333629612,
+   "clean_none": 0.2762204114984348,
+   "noisy_none": 0.2863448554596329,
+   "clean_homeo": 0.015411515402798096,
+   "noisy_homeo": 0.025824333336296128,
+   "removed_noisy_none": -0.036177329321296366,
+   "removed_clean_homeo": 1.0000000000000002,
+   "removed_noisy_homeo": 0.953934163664136,
+   "noisy_none_beats_clean_none": 0.4913194444444444,
+   "n": 1152
+  },
+  "P2_s0.4": {
+   "pre_clean": 0.003520173769389288,
+   "pre_noisy": 0.012333170971342662,
+   "clean_none": 0.25811713342595627,
+   "noisy_none": 0.25624954895915286,
+   "clean_homeo": 0.008904250003776594,
+   "noisy_homeo": 0.014039344485248326,
+   "removed_noisy_none": 0.0032935220229629637,
+   "removed_clean_homeo": 0.9700027862741192,
+   "removed_noisy_homeo": 0.9414103855507724,
+   "noisy_none_beats_clean_none": 0.4991319444444444,
+   "n": 1152
+  },
+  "P4_s0.4": {
+   "pre_clean": 0.004091666544083123,
+   "pre_noisy": 0.01080432468497016,
+   "clean_none": 0.24511012215320255,
+   "noisy_none": 0.24411605729057875,
+   "clean_homeo": 0.00679616645366091,
+   "noisy_homeo": 0.012191853459045327,
+   "removed_noisy_none": -0.0002407084920647619,
+   "removed_clean_homeo": 0.982922966617232,
+   "removed_noisy_homeo": 0.9492231346021031,
+   "noisy_none_beats_clean_none": 0.4982638888888889,
+   "n": 1152
+  },
+  "P8_s0.4": {
+   "pre_clean": 0.003306145338837996,
+   "pre_noisy": 0.013176090519429941,
+   "clean_none": 0.23661380834090334,
+   "noisy_none": 0.2332803872202548,
+   "clean_homeo": 0.004707595560501799,
+   "noisy_homeo": 0.013829862277774533,
+   "removed_noisy_none": 0.008447056865763556,
+   "removed_clean_homeo": 0.9920696487625591,
+   "removed_noisy_homeo": 0.9319143651414153,
+   "noisy_none_beats_clean_none": 0.5225694444444444,
+   "n": 1152
+  }
+ }
+}

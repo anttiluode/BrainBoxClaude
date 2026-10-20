@@ -213,6 +213,69 @@ wave itself moves (21° in G3). What protects Sol's content is (1) **redundant b
 redistribution inside an interface, and (2) **conserving each interface's total**. Sol's medium had neither
 redundancy nor a conserved quantity, which is why its address scaffold looked brittle.
 
+### G5a — the grown box: growth writes the address, but one point cannot read it · **PASS (E1–E4)**
+`gates/g5a_grown_box.py` · growth by splitting: every generation each box splits in two; nodes separated at
+generation g are coupled by c·r^(L−1−g)/N (older splits = outer = weaker). Depth 6, 64 leaves. This is an
+**ultrametric** medium; a leaf's address is its split history (6 binary digits — a 2-adic number).
+
+- **E1.** One tier of timescales per generation, sizes **1, 2, 4, 8, 16, 32**, and every tier's eigenspace is
+  spanned exactly by that generation's Haar functions (overlap **1.000** for all tiers, both r). The medium's
+  own modes *are* the block pyramid: each mode is "the difference between the two halves of one box".
+- **E2.** Slowest timescale grows as r^−(L−1): **9.1·10⁴** at r = 0.1, **411** at r = 0.3 (fastest ~19–28).
+  The outer box diverges in time — depth has to be capped by the range of timescales a reader can wait for.
+- **E3 (predicted before checking).** Coupling depends only on ultrametric distance, so one soma sees only the
+  *distance* to a source, not its address: **7 distinct traces for 64 nodes** (6 distances + itself).
+  Random extra receivers help slowly: unique addresses 11% (R=1) → 18% → 27% → 41% → 62% (R=16).
+- **E4.** Reading far (outer) distance digits needs an observation window of the outer timescale: at r = 0.1 the
+  5th distance class goes 0.03 → 0.10 → 0.47 → 0.95 → 1.00 as the window grows 1 → 10⁴ (1% noise). (The farthest
+  class is half of all nodes and wins near-zero ties at short windows; its early scores are not readability.)
+- **Imperfect growth makes the address readable.** Full-address decode at one soma (63 candidates, chance 0.016):
+
+| growth jitter | r = 0.3, noise 0.1% | r = 0.3, noise 1% | r = 0.1, noise 0.1% |
+|---|---|---|---|
+| 0 (perfect) | 0.10 | 0.11 | 0.07 |
+| 0.05 | 0.91 | 0.31 | 0.32 |
+| 0.2 | 1.00 | 0.61 | 0.45 |
+| 0.5 | 1.00 | 0.89 | 0.61 |
+
+Perfect symmetry hides the address from a single reader; disorder in growth reveals it (the same reason G0's
+random block graphs were decodable). Prior art: ultrametric diffusion (Ogielski & Stein 1985), p-adic wavelets as
+eigenvectors of ultrametric operators (Kozyrev), Avetisov–Bikulov–Kozyrev; ultrametricity in spin glasses
+(Rammal, Toulouse & Virasoro 1986). Nothing here is new mathematics; the link to addressing is ours.
+
+### G5b — do conserved block totals protect a trained classifier from drift? · **mechanism PASSES, as an AI fix FAILS**
+`gates/g5b_classifier_drift.py` · sklearn digits (8×8), MLP 64→64→10 trained in numpy, test accuracy 0.975 ·
+first-layer weights drift w ← w·exp(s·ξ) · repair restores each group's stored total (equal-share correction) ·
+3 training seeds × 20 drift draws
+
+Fraction of the drift damage removed (natural inputs):
+
+| repair (stored numbers) | s = 0.3 | s = 0.6 | s = 1.0 |
+|---|---|---|---|
+| per-unit row total (64) | 29% | 18% | 4% |
+| local 4×4 block totals (256) | 33% | 22% | −2% |
+| **local 2×2 block totals (1024)** | **82%** | **76%** | **52%** |
+| random groups of 4 (1024, no locality) | 53% | 38% | 10% |
+| 2-bit snapshot of all weights (bits = 256 floats) | −101% | 58% | 87% |
+| **8-bit snapshot of all weights (bits = 1024 floats)** | **100%** | **100%** | **100%** |
+
+On **permuted** pixels (blocks of unrelated pixels) the local 2×2 advantage disappears: 22% / 27% / 2%.
+
+- **Q1 pass:** at identical storage, *local* totals beat random groups (82 vs 53%, 76 vs 38%, 52 vs 10%).
+- **Q2 pass:** the advantage needs locality in the input — gone on permuted pixels. Within-block pixel correlation
+  is 0.26 for 2×2 blocks, 0.02 for random groups; this is the classifier version of G4's ratio law.
+- **Q3 mostly fails:** 4×4 blocks behave like whole-row totals — correlation only lives at the 2×2 scale.
+- **The kill:** a bit-matched 8-bit snapshot recovers everything, and even a 2-bit snapshot (¼ the storage) beats
+  block totals at strong drift. **On digital hardware, keep a cheap copy.** Block-total conservation is not a
+  competitive drift fix for ordinary AI.
+
+Where it can still matter, stated as hypotheses, not results: substrates where weights cannot be read out and
+copied — analog / in-memory hardware (prior art: global drift compensation in phase-change-memory inference,
+Joshi et al., *Nature Communications* 2020 — our version is the local, block-wise refinement) and biology — and
+the version that needs **no stored numbers at all**: plasticity that is conservative by construction
+(Royer & Paré, *Nature* 2003). And in digital AI, random weight drift is not the real problem; new learning is.
+The live test is continual learning, against OGD/GPM/EWC, not drift repair.
+
 ## Ledger — corrections made on the way (kept on purpose)
 
 1. The morning scratch run reported 83% / 75% (macro / sub). It trained and tested the decoder on the same
@@ -224,6 +287,8 @@ redundancy nor a conserved quantity, which is why its address scaffold looked br
 4. Tier detector threshold 2.5 missed a 2.37× gap on one seed; set to 2.0, now [1,3,12,112] on all seeds.
 5. G2 had no fixed-slot control, so it let "phase gating works" read as "PAC works". Sol's BrainBoxSol PR #2
    ran that control on his side; added here. Phase gating = fixed slots of the same span (see G2).
+6. G5b's first run had no bit-matched control and made block totals look like a useful drift fix (76% of damage
+   removed). An 8-bit snapshot with the same bit budget removes 100%. Control added; verdict reversed for digital AI.
 
 ## Prior art (subtract before claiming)
 
@@ -250,16 +315,23 @@ been checked against the literature beyond this list — treat as unverified nov
   rhythm frequencies that conversion pays for itself in throughput.
 - Design rule, now measured (G3): **write memories inside blocks, keep bridges stable.** Bridge drift
   scrambles *where* things are while leaving *what* intact, and vice versa.
-- Stability rule (G3b): protect **interface totals**, not individual weights and not per-unit totals.
-  For a dynamic AI this suggests a cheap guard: let block-to-block weights wander, but renormalize each
-  block-pair's total coupling. That is a testable continual-learning rule, not yet tested on a learning task.
+- Stability rule (G3b, G4): protect **interface totals**, not individual weights and not per-unit totals.
+  Confirmed on Sol's medium and writers (G4: 94–99% of drift damage removed, no targets).
+- Growth writes addresses (G5a): split-growth gives one timescale tier per generation and Haar modes, but a
+  perfectly symmetric box hides the address from a single reader; imperfect growth reveals it.
+- **Limit found (G5b):** in a trained digital classifier the mechanism transfers (local totals beat random
+  groups, and only when inputs are locally correlated), but a bit-matched weight snapshot beats it outright.
+  As a drift fix for ordinary AI it loses. What remains open is the storage-free version (conservative
+  plasticity) and the continual-learning version — G6.
 
 ## Next gates
 
-- **G5** — the honest discriminator for AI: put the interface-total rule into a *learning* network
-  (block-structured RNN / fast weights) on a continual-learning task with weight drift, against a
-  matched-cost unstructured network with ordinary normalization. If it does not win there, everything here
-  is a property of passive media, not an AI improvement.
+- **G6** — continual learning, the real AI question: a network whose between-block weights live in the block
+  pyramid with *conserved* totals (plasticity only redistributes inside an interface — no stored numbers),
+  learning a sequence of tasks, against OGD/GPM, EWC and a matched unconstrained network. If it does not
+  win there, the brain-box line is about physical media, not about better AI.
+- **G5c (optional)** — a growing medium on the G0–G4 harness: growth with jitter, then content writes and drift,
+  to check that the grown address behaves like the hand-built one.
 
 ## Layout
 
@@ -272,6 +344,8 @@ gates/g2b_throughput.py
 gates/g3_content_vs_address.py   G3 + G3b
 brainbox/solport.py     port of BrainBoxSol's medium and writers (P parallel bridges)
 gates/g4_sol_bridge_rescue.py    G4
+gates/g5a_grown_box.py           G5a
+gates/g5b_classifier_drift.py    G5b
 results/*.json          raw numbers for every gate
 ```
 

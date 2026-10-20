@@ -276,6 +276,46 @@ the version that needs **no stored numbers at all**: plasticity that is conserva
 (Royer & Paré, *Nature* 2003). And in digital AI, random weight drift is not the real problem; new learning is.
 The live test is continual learning, against OGD/GPM/EWC, not drift repair.
 
+### G6 — the AI question: does conserved-pyramid plasticity help continual learning? · **FAIL (pre-stated rule)**
+`gates/g6_continual.py` (v0) · `gates/g6b_continual_rotated.py` (the informative run)
+
+Pre-stated rule: the pyramid counts as AI-relevant only if its final accuracy matches or beats **GPM at the same
+protected rank** (Gradient Projection Memory, Saha et al. 2021 — learns and stores the protected subspace) while
+storing nothing. Pyramid rule: after task 1, first-layer updates must be zero-sum inside every local 2×2 pixel block
+(block totals conserved). Its protected subspace is the geometry; it stores no basis.
+
+**v0 — split digits, one head per task: uninformative.** Plain fine-tuning already ends at 0.990 with forgetting
+−0.007; every method lies within 0.006. The formal "FAIL" (pyramid − GPM-16 = −0.001) means nothing at that
+ceiling. Kept for the record; redesigned before rerunning, rule unchanged.
+
+**v1 — rotated digits, domain-incremental, one shared 10-way head** (tasks = all digits rotated 0/30/60/90/120°,
+64→32→10, SGD+momentum, 5 seeds). Every projection arm protects the head identically (GPM on hidden activations),
+so they differ **only** in the input-layer subspace: learned (GPM) vs geometric (pyramid) vs random.
+
+| method | final ACC (±sd) | forgetting (BWT) | input basis stored |
+|---|---|---|---|
+| GPM (learned, rank grows to 29) | **0.736** (0.021) | −0.25 | 1856 numbers |
+| EWC (λ = 10, best of grid; optimistic) | 0.716 (0.016) | −0.23 | Fisher + anchor, both layers |
+| GPM-16 (learned, rank 16) | **0.553** (0.025) | −0.49 | 1024 |
+| **pyramid 2×2 (geometric, rank 16)** | **0.486** (0.013) | −0.58 | **0** |
+| pyramid 4×4 (rank 4) | 0.467 (0.012) | −0.63 | 0 |
+| random groups (rank 16) | 0.451 (0.021) | −0.64 | 0 |
+| fine-tune | 0.441 (0.003) | −0.66 | 0 |
+
+- **Verdict: FAIL.** Pyramid − GPM-16 = **−0.067**; the pyramid loses on **5/5 seeds**
+  (0.464–0.500 vs 0.524–0.593).
+- What survives: locality is worth something — the pyramid beats random groups of the same rank on 4/5 seeds
+  (0.486 vs 0.451) and beats fine-tuning. But a basis learned from the data at the same rank is clearly better, and
+  standard methods (GPM, EWC) are far better still.
+- Honest notes: EWC at λ ≥ 1000 diverged with this learning rate (overflow), so its grid effectively topped out at
+  λ = 10; a tuned EWC could do better, which would not change the verdict. No hyperparameters were tuned for the
+  pyramid or GPM arms.
+
+**What G6 settles:** on digital hardware, where a network can store a basis or a weight copy, the brain-box
+mechanisms (G5b: drift; G6: continual learning) lose to standard machinery. The fixed geometric subspace is a
+data-blind approximation of what GPM learns. **The BrainBox line is about physical media** — substrates where
+weights cannot be read out, bases cannot be computed and copies cannot be kept — **not about better digital AI.**
+
 ## Ledger — corrections made on the way (kept on purpose)
 
 1. The morning scratch run reported 83% / 75% (macro / sub). It trained and tested the decoder on the same
@@ -289,6 +329,8 @@ The live test is continual learning, against OGD/GPM/EWC, not drift repair.
    ran that control on his side; added here. Phase gating = fixed slots of the same span (see G2).
 6. G5b's first run had no bit-matched control and made block totals look like a useful drift fix (76% of damage
    removed). An 8-bit snapshot with the same bit budget removes 100%. Control added; verdict reversed for digital AI.
+7. G6 v0 used a benchmark with no forgetting to fix (fine-tune 0.990). Redesigned to rotated-digits domain-IL
+   after seeing v0; the verdict rule was kept unchanged and the redesign was written before rerunning.
 
 ## Prior art (subtract before claiming)
 
@@ -321,17 +363,23 @@ been checked against the literature beyond this list — treat as unverified nov
   perfectly symmetric box hides the address from a single reader; imperfect growth reveals it.
 - **Limit found (G5b):** in a trained digital classifier the mechanism transfers (local totals beat random
   groups, and only when inputs are locally correlated), but a bit-matched weight snapshot beats it outright.
-  As a drift fix for ordinary AI it loses. What remains open is the storage-free version (conservative
-  plasticity) and the continual-learning version — G6.
+  As a drift fix for ordinary AI it loses.
+- **Limit found (G6):** in continual learning the geometric pyramid (0.486) loses to equal-rank learned GPM (0.553)
+  on every seed, and far behind full GPM (0.736) / EWC (0.716). It beats random groups — locality is real — but
+  not learned subspaces.
+- **Bottom line after G0–G6:** the measured mechanisms (free addresses from weak coupling, interface totals as the
+  conserved quantity, growth writing addresses) are real **physical-media** results. As digital-AI methods they lose
+  to cheap standard controls. Claim size for AI: none yet.
 
 ## Next gates
 
-- **G6** — continual learning, the real AI question: a network whose between-block weights live in the block
-  pyramid with *conserved* totals (plasticity only redistributes inside an interface — no stored numbers),
-  learning a sequence of tasks, against OGD/GPM, EWC and a matched unconstrained network. If it does not
-  win there, the brain-box line is about physical media, not about better AI.
-- **G5c (optional)** — a growing medium on the G0–G4 harness: growth with jitter, then content writes and drift,
-  to check that the grown address behaves like the hand-built one.
+The AI claim is closed for now (G5b, G6). What remains is the world question — media that grow their own blocks:
+
+- **G7 — does PhiWorld grow its own boxes?** The old PhiWorld field (Mexican-hat potential, mass slows the clock,
+  biharmonic term) spontaneously forms ±√5 domains whose interiors are slow and whose walls are fast — the inverse
+  of the hand-built BrainBox, where blocks are fast and bridges slow. Linearize around the domain state and measure:
+  are there timescale tiers? Do domains act as content and walls as address under drift? Add a slow material field
+  (Sol's suggestion) and test history-dependent responses against a reservoir baseline.
 
 ## Layout
 
@@ -346,6 +394,8 @@ brainbox/solport.py     port of BrainBoxSol's medium and writers (P parallel bri
 gates/g4_sol_bridge_rescue.py    G4
 gates/g5a_grown_box.py           G5a
 gates/g5b_classifier_drift.py    G5b
+gates/g6_continual.py            G6 v0 (ceiling, kept for the record)
+gates/g6b_continual_rotated.py   G6 (the informative run)
 results/*.json          raw numbers for every gate
 ```
 

@@ -71,7 +71,7 @@ Noiseless, the dictionary is full rank (8/8): **the information is present but n
 This is the Calderón / "one soma is one boundary point" statement, measured.
 Caveat: "noiseless" still includes within-block node variation (the decoder uses block centroids).
 
-### G2 — slow rhythm turns position into phase · **PASS** (the real finding of the day)
+### G2 — slow rhythm turns position into phase · **PASS** for the phase map; gate = plain time-slotting
 `gates/g2_pac.py` · 6 macro-blocks · soma also injects a slow sinusoid (pacemaker) · 5 seeds
 
 - **Chain** of macro-blocks: the drive becomes a travelling phase wave, monotone along the chain,
@@ -82,9 +82,21 @@ Caveat: "noiseless" still includes within-block node variation (the decoder uses
 So bridge *topology* decides whether position can become phase. Nothing is labelled; the medium sets it.
 
 Phase-gated release (each unit fires at the peak of its *local* slow oscillation — a PAC-like gate) vs
-linear release, same read window: K=4 simultaneous units **1.00 gated vs 0.54 linear**; jitter up to 5 t
-costs nothing. This part is close to guaranteed once phases differ (time-division multiplexing) and is
-**not** claimed as a discovery — G2b prices it.
+linear release, same read window: K=4 simultaneous units **1.00 gated vs 0.54 linear**.
+
+**Fixed-slot control (added after Sol's BrainBoxSol PR #2 exposed the gap — my G2 originally lacked it).**
+Release times assigned per block from an external label instead of from the medium:
+
+| K = 4, release jitter | linear | phase-gated | fixed slots, same span as phase | fixed slots, whole period |
+|---|---|---|---|---|
+| 0 | 0.53 | 1.00 | 1.00 | 1.00 |
+| 20 t | 0.53 | 0.86 | 0.88 | 1.00 |
+| 50 t | 0.55 | 0.59 | 0.55 | **0.88** |
+
+**The PAC-like gate is exactly as good as fixed time slots over the same span, and worse than evenly spaced
+slots** (the medium's phase wave only covers ~210° of the cycle). The benefit is *temporal separation*, not
+phase coupling. The only thing the phase gate adds is that **the medium assigns the slots itself, with no
+labels** — and that assignment is only as stable as the bridges (G3, G4).
 
 ### G2b — does the gate buy throughput or just spend time? · **PASS in a band, FAIL outside it**
 `gates/g2b_throughput.py` · units correctly addressed per unit time · 3 seeds
@@ -210,6 +222,8 @@ redundancy nor a conserved quantity, which is why its address scaffold looked br
 3. G2b first version included K = M = 6, where "all blocks active" is the only possible answer, so both
    arms scored perfectly. Removed.
 4. Tier detector threshold 2.5 missed a 2.37× gap on one seed; set to 2.0, now [1,3,12,112] on all seeds.
+5. G2 had no fixed-slot control, so it let "phase gating works" read as "PAC works". Sol's BrainBoxSol PR #2
+   ran that control on his side; added here. Phase gating = fixed slots of the same span (see G2).
 
 ## Prior art (subtract before claiming)
 

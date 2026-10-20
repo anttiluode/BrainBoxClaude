@@ -33,7 +33,7 @@ OMEGAS = np.geomspace(0.002, 0.5, 25)
 SOMA = 0
 KS = [1, 2, 3, 4]
 NOISE = 0.01
-JITTER = [0.0, 2.0, 5.0]
+JITTER = [0.0, 5.0, 20.0, 50.0]
 TRIALS = 200
 
 
@@ -105,11 +105,20 @@ def run():
         # templates per block (centroid over the block's candidate nodes)
         tmpl_lin = np.array([np.mean([trace(i, 0.0) for i in cand[med.macro[cand] == b]], 0) for b in blocks])
         tmpl_gat = np.array([np.mean([trace(i, t_rel[i]) for i in cand[med.macro[cand] == b]], 0) for b in blocks])
+        # Fixed-slot controls (added after Sol's BrainBoxSol PR #2 exposed the gap): release time
+        # is assigned per block from an EXTERNAL label, not from the medium.
+        #   fixed_even: blocks spread evenly over the whole period (what a designer would do)
+        #   fixed_span: evenly spread over the same span of release times the phase gate uses
+        blk_t = np.array([np.median(t_rel[cand][med.macro[cand] == b]) for b in blocks])
+        slots = {"fixed_even": np.arange(M) * period / M,
+                 "fixed_span": blk_t.min() + np.argsort(np.argsort(blk_t)) * (blk_t.max() - blk_t.min()) / (M - 1)}
+        tmpl_fix = {k: np.array([np.mean([trace(i, v[b]) for i in cand[med.macro[cand] == b]], 0) for b in blocks])
+                    for k, v in slots.items()}
         scale = np.sqrt((tmpl_lin ** 2).mean())
         partB = {}
         for jit in JITTER:
             for K in KS:
-                hits = {"linear": 0, "gated": 0}
+                hits = {"linear": 0, "gated": 0, "fixed_even": 0, "fixed_span": 0}
                 for _ in range(TRIALS):
                     chosen = rng.choice(blocks, K, replace=False)
                     amps = rng.uniform(0.5, 1.5, K)
@@ -117,7 +126,12 @@ def run():
                     y_lin = sum(a * trace(i, 0.0) for a, i in zip(amps, nodes))
                     y_gat = sum(a * trace(i, max(0.0, t_rel[i] + jit * rng.standard_normal()))
                                 for a, i in zip(amps, nodes))
-                    for name, y, D in [("linear", y_lin, tmpl_lin), ("gated", y_gat, tmpl_gat)]:
+                    ys = [("linear", y_lin, tmpl_lin), ("gated", y_gat, tmpl_gat)]
+                    for k, v in slots.items():
+                        y_f = sum(a * trace(i, max(0.0, v[med.macro[i]] + jit * rng.standard_normal()))
+                                  for a, i in zip(amps, nodes))
+                        ys.append((k, y_f, tmpl_fix[k]))
+                    for name, y, D in ys:
                         y = y + NOISE * scale * rng.standard_normal(len(ts))
                         coef = nnls_safe(D.T, y)
                         hits[name] += set(np.argsort(coef)[::-1][:K]) == set(chosen)
@@ -137,7 +151,7 @@ def run():
         summ[f"{topo}:min_gap_deg"] = float(np.mean([r[topo]["best_min_gap_deg"] for r in res["seeds"]]))
     for jit in JITTER:
         for K in KS:
-            for name in ["linear", "gated"]:
+            for name in ["linear", "gated", "fixed_even", "fixed_span"]:
                 summ[f"K{K}_jit{jit}:{name}"] = float(np.mean([r["partB"][f"K{K}_jit{jit}"][name] for r in res["seeds"]]))
     res["summary"] = summ
     print("\nmean over seeds")
@@ -145,7 +159,8 @@ def run():
           f"all-to-all {summ['all:score']:.2f} (min gap {summ['all:min_gap_deg']:.1f} deg)")
     for jit in JITTER:
         print(f"  jitter {jit}: " + "  ".join(
-            f"K{K} lin {summ[f'K{K}_jit{jit}:linear']:.2f} gated {summ[f'K{K}_jit{jit}:gated']:.2f}" for K in KS))
+            f"K{K} lin {summ[f'K{K}_jit{jit}:linear']:.2f} gated {summ[f'K{K}_jit{jit}:gated']:.2f} "
+            f"fix_even {summ[f'K{K}_jit{jit}:fixed_even']:.2f} fix_span {summ[f'K{K}_jit{jit}:fixed_span']:.2f}" for K in KS))
     with open(os.path.join(os.path.dirname(__file__), "..", "results", "g2_pac.json"), "w") as f:
         json.dump(res, f, indent=1)
 

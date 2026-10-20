@@ -1,0 +1,62 @@
+[
+ {
+  "form": "variational",
+  "seed": 0,
+  "computed with G8b's 150 t settle": 0.2217311595974442,
+  "3-phase, 2w clock, settle 150": 0.14985911643584565,
+  "3-phase, 2w clock, settle 400": 0.9035309207313484,
+  "3-phase, 2w clock, settle 300": 0.896955553055756,
+  "2-phase, 2w clock, settle 400": 0.23687446232868378,
+  "3-phase, no clock (DC), settle 400": 0.026813280759735443
+ },
+ {
+  "form": "variational",
+  "seed": 1,
+  "computed with G8b's 150 t settle": -0.14497039649225224,
+  "3-phase, 2w clock, settle 150": 0.07959643610310435,
+  "3-phase, 2w clock, settle 400": 0.8829626455460456,
+  "3-phase, 2w clock, settle 300": 0.6038987836138205,
+  "2-phase, 2w clock, settle 400": 0.20119721044514396,
+  "3-phase, no clock (DC), settle 400": 0.11081405302181399
+ },
+ {
+  "form": "variational",
+  "seed": 2,
+  "computed with G8b's 150 t settle": 0.736688742752411,
+  "3-phase, 2w clock, settle 150": -0.18129765842441994,
+  "3-phase, 2w clock, settle 400": 0.9176918757868637,
+  "3-phase, 2w clock, settle 300": 0.583524305817827,
+  "2-phase, 2w clock, settle 400": 0.27316303380986634,
+  "3-phase, no clock (DC), settle 400": 0.1293796692429753
+ },
+ {
+  "form": "phiworld",
+  "seed": 0,
+  "computed with G8b's 150 t settle": 0.6221367366967927,
+  "3-phase, 2w clock, settle 150": 0.07891238642580992,
+  "3-phase, 2w clock, settle 400": 0.9182471105070779,
+  "3-phase, 2w clock, settle 300": 0.7847000302705779,
+  "2-phase, 2w clock, settle 400": -0.10055515992585613,
+  "3-phase, no clock (DC), settle 400": 0.24782030941956687
+ },
+ {
+  "form": "phiworld",
+  "seed": 1,
+  "computed with G8b's 150 t settle": 0.5897176634396325,
+  "3-phase, 2w clock, settle 150": -0.11873504452409629,
+  "3-phase, 2w clock, settle 400": 0.865974640705147,
+  "3-phase, 2w clock, settle 300": 0.7298055687613981,
+  "2-phase, 2w clock, settle 400": 0.13038913315094858,
+  "3-phase, no clock (DC), settle 400": 0.09558745959419818
+ },
+ {
+  "form": "phiworld",
+  "seed": 2,
+  "computed with G8b's 150 t settle": 0.5904008739067831,
+  "3-phase, 2w clock, settle 150": 0.20794135685309895,
+  "3-phase, 2w clock, settle 400": 0.8611989899160435,
+  "3-phase, 2w clock, settle 300": 0.4502563200694318,
+  "2-phase, 2w clock, settle 400": 0.1646901124191255,
+  "3-phase, no clock (DC), settle 400": 0.10540758674212748
+ }
+]

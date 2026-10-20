@@ -429,8 +429,11 @@ the right one (chance 0.33).
 Writers:
 - **three-factor:** Δm(x) = Σ_kj w_kj · Re(conj(T_kj) · A_fwd,k(x) · A_echo,j(x)). Forward field × echo field at x
   (local, phase-sensitive) × **one outcome number per pair** (w = 2/|T_k,target|² for the right output,
-  −1/Σ_j|T_kj|² for every output). If the medium is reciprocal this is the exact gradient of
-  Σ_k [2 log|T_k,target|² − log Σ_j |T_kj|²].
+  −1/Σ_j|T_kj|² for every output). If the medium is reciprocal and the fields are settled, this is the gradient of
+  Σ_k [2 log|T_k,target|² − log Σ_j |T_kj|²]. **Correction (found in G9a):** the fields here were read after
+  150 t, which is not settled; the same computed term correlates only −0.15 to 0.74 with its settled version (G9a). So G8b's writer
+  was a rough, transient-contaminated version of the gradient. It still learned, and the controls still sat at
+  chance, but "exact gradient" is not what ran.
 - **coincidence (Hebbian):** Δm ∝ |A_fwd,k| · |A_echo,target(k)|, each pair writing the same total. This is the
   forward × echo rule I proposed before this gate. No outcome number.
 - **forward only:** Δm ∝ |A_fwd,k|² (no echo). **grok:** Δm ∝ |∇φ| (all walls, no drive). **no learning.**
@@ -511,6 +514,74 @@ settling at κ = 5; not checked further. **Mass-slows-the-clock as he wrote it b
 PhiWorld the return ping is not a correct teacher.** Writing the same idea as an energy restores it, and the
 learning (G8b, 0.56 → 1.00).
 
+### G9 — the teacher made physical · **PARTIAL: it learns most routes from inside the medium, not reliably all; the clock control separates in transmission, not clearly in accuracy**
+`gates/g9_physical_teacher.py` · `results/g9a_unit.json`, `results/g9b_learning.json`
+
+G8b computed its teacher outside the medium: separate forward and echo runs from a copied state, and one outcome
+number per pair broadcast to every pixel. G9 removes both. **One medium, one clock, the field never copied.**
+For each input k, three phases in a row:
+
+1. **free:** drive input k. Each output measures its own received phasor T_kj (a lock-in at the output).
+2. **nudged:** drive input k **and** every output re-emits at ω with source
+   s_j = β · σ_j · min(T_ref/|T_kj|, cap) · conj(T_kj)/|T_kj|, σ = +1 for its label "target", −½ otherwise.
+   The output's own measurement and its own label decide its echo: louder when it hears less, saturating.
+3. **echo:** outputs re-emit s_j, input silent.
+
+The material at x senses only its own activity δ = φ − ⟨φ⟩ and the clock at 2ω: Q(x) = the 2ω lock-in of δ².
+It writes Δm ∝ Re(2i [Q_nudged − Q_free − Q_echo]). Why 2ω: for δ = Im(A e^{iωt}), the 2ω part of δ² is −(i/2)A²,
+so the three-phase difference is 2·A_fwd·A_echo — the product of the two fields **without** a complex conjugate,
+which is what the gradient needs. A plain intensity sensor (the DC part of δ²) sees A_fwd·conj(A_echo): the wrong
+product (control "no clock"). With these echoes the update is the gradient of
+Σ_k [log|T_k,target| − mean_other log|T_kj|].
+
+**G9a — does the physical loop compute the gradient?** Correlation over pixels with the same term computed from
+separate, fully settled runs (600 t), 6 media (3 variational, 3 his form), random m:
+
+| | correlation |
+|---|---|
+| 3 phases, 2ω clock, each phase settles 400 t | **0.86 – 0.92** |
+| same, 300 t | 0.45 – 0.90 |
+| same, 150 t | −0.18 – 0.21 |
+| 2 phases (no echo-only phase), 400 t | −0.10 – 0.27 |
+| 3 phases, no clock (plain intensity), 400 t | 0.03 – 0.25 |
+| the computed term itself at 150 t (what G8b did) | −0.15 – 0.74 |
+
+The loop works only if each phase waits for the previous one to ring down (400 t ≈ 5000 steps). The echo-only
+phase is needed: with loud echoes the β² self-term swamps the cross term.
+
+**G9b — learning,** crossing mapping, 60 epochs, 3 seeds, all else as G8b:
+
+| teacher · medium | accuracy on the taught mapping (chance 0.33) | target transmission |
+|---|---|---|
+| **physical, 3 phases · variational κ = 5** | **0.78** [0.67, 1.00, 0.67] | **0.19** |
+| same, taught a different mapping (scored on that mapping) | **0.78** [1.00, 0.67, 0.67] — and 0.00 on the cyclic one | 0.03 on cyclic targets |
+| physical, 2 phases | 0.56 [0.67, 0.67, 0.33] | 0.035 |
+| no clock (plain intensity) | 0.56 [0.67, 0.33, 0.67] | 0.040 |
+| physical, 3 phases · his form κ = 5 | 0.44 [0.33, 0.67, 0.33] | 0.038 |
+| (G8b computed teacher, variational, for reference) | 1.00 [1, 1, 1] | 0.18 |
+
+Memory, physical 3-phase: φ re-born from noise with m kept → 0.67 [0.67, 1.00, 0.33]; m shuffled → 0.11.
+
+Pre-stated (v2, same statements as v1):
+- **R1 fails as stated** (≥ 2/3 seeds perfect): 1/3 seeds perfect. Pooled over both taught mappings the physical
+  teacher gets **14 of 18 routes right** (chance 6), 2 of 6 runs perfect. The labels steer it: teach the other mapping
+  and it learns that one (7/9) and scores 0/9 on the cyclic one.
+- **R2 fails as stated:** the no-clock writer is not at chance (5/9 routes). It does separate in **transmission**:
+  the clocked teacher builds routes ~5× stronger (0.19 vs 0.04), as strong as G8b's computed teacher. With 3
+  outputs and 3 seeds an accuracy difference of 7/9 vs 5/9 is not significant.
+- **R3 mostly passes:** wrong labels → 0.00 on the cyclic mapping; shuffled m → 0.11; re-born φ keeps 0.67 (one seed
+  drops to 0.33).
+- R4 (open): 2-phase 0.56; his non-reciprocal form 0.44 — lowest of the physical arms, consistent with G8c.
+
+What is still outside the medium, stated plainly: the clock (one oscillator at ω, the drive's own, used at 2ω by
+every pixel); the labels at the outputs; the step-size normalisation (a global gain: the 95th percentile of |Δm|);
+the conserved-total projection (subtract one constant); and the phase schedule (who drives when). Compared to G8b
+what is gone: copied states, separate runs, and the per-pair number broadcast to every pixel — each output now
+sets its own echo from its own measurement. Prior art: this is the two-phase / contrastive structure of
+equilibrium propagation and coupled learning (Scellier & Bengio 2017; Stern et al. 2021) and the interference
+reading of in-situ backpropagation (Hughes et al. 2018), here with a second-harmonic sensor instead of an
+intensity sensor. The cost: one epoch = 9 phases × 460 t in a row, about 3× the simulation of a G8b epoch.
+
 ## Ledger — corrections made on the way (kept on purpose)
 
 1. The morning scratch run reported 83% / 75% (macro / sub). It trained and tested the decoder on the same
@@ -544,6 +615,13 @@ learning (G8b, 0.56 → 1.00).
     were too noisy to trust; the gate uses the derived sign.
 12. G8b's predictions were written after the prototypes had shown the variational and κ = 0 arms learning on seed 0,
     so Q1 is a replication across seeds, not a blind prediction.
+13. G8b's lock-in fields were read after only 150 t of settling. G9a compared the computed term at 150 t with the
+    same term from fully settled runs (600 t): correlation −0.15 to 0.74 across six media. G8b learned with an
+    approximate gradient, not the exact one it described. G9 uses 400 t per phase (0.86–0.92).
+14. G9b v1 (echo of fixed loudness, sign ±1 = amplitude objective) failed its R1: 0.33 / 0.33 / 0.67. The transmission
+    matrices showed why: one pair took all the material (seed 1: in1→out2 at 0.54, everything else ≈ 0.01). Changed
+    to echoes that get louder when the output hears less (log objective, as in G8b), predictions unchanged, rerun as v2.
+    v1 log kept: `results/g9b_v1_amplitude_objective.log`.
 
 ## Prior art (subtract before claiming)
 
@@ -595,13 +673,15 @@ been checked against the literature beyond this list — treat as unverified nov
   field (G8b). Forward × echo alone — the rule proposed before the test — does not: chance. The echo is a correct
   teacher only if the medium is reciprocal; his clock rule is not, its variational form is (G8c).
   Claim size: a 3 × 3 routing in a 32 × 48 box. A self-wiring medium, not a brain.
+- **G9:** the teacher can be moved into the medium — one clock, outputs that echo from their own measurement, a
+  material that senses the 2ω part of its own activity — and it computes the gradient (0.86–0.92) if every phase
+  is given time to ring down. Learning from it is weaker than from the computed teacher: 14/18 routes, 2/6 perfect.
 
 ## Next gates
 
-- **G9 — make the teacher physical.** In G8b the outcome number is computed outside the medium and broadcast, and the
-  forward and echo runs are separate runs from a copied state. Next: forward and echo at the same time on two
-  frequencies, and the outcome as a field the outputs emit (a diffusing "reward" the medium itself carries).
-  If the routing survives that, nothing in the loop is outside the medium.
+- **G9 — make the teacher physical.** Done, partial (above). Open: why it learns 2 of 3 routes where the computed
+  teacher learns 3 — settling (0.86–0.92, not 1), the echo cap, or too few epochs; more outputs and seeds so that
+  accuracy differences between teachers can be resolved at all; and removing the global gain and the projection.
 - **G10 — scale and crossing.** K = 3 in 2-D is a toy. Does the conserved-material writer reach K = 8? Crossing
   routes leak in 2-D; does a third dimension (or a folded sheet) remove that cost?
 - **Against a baseline.** The same writer in a plain linear gapped medium (no Mexican hat) — does PhiWorld's
@@ -630,6 +710,7 @@ gates/g8a_wires.py               G8a
 gates/g8_phiworld_wires.py       G8b medium, ports, writers, training loop
 gates/g8b_learning.py            G8b runner (10 arms x 3 seeds, ~45 min on 2 cores) · g8b_figure.py
 gates/g8c_reciprocity.py         G8c
+gates/g9_physical_teacher.py     G9a (python ... a) and G9b (python ... b, 5 arms x 3 seeds, ~2 h on 2 cores)
 results/*.json          raw numbers for every gate
 ```
 

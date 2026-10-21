@@ -671,6 +671,45 @@ insensitive to a random factor on that bridge. The best content under random dri
 homeostat is the part that does see the drift: it senses each interface's total. Robustness has to come from something that
 senses, not from writing harder.
 
+### G12 — the Noise Sea, measured: does noise make mass and slow the clock? · **yes in the sea, the opposite inside a domain**
+`gates/g12_noise_sea.py` · `results/g12_noise_sea.json`
+
+His 2025 theory behind PhiWorld: under everything is noise; where noise concentrates it makes mass, and mass slows the clock.
+Field theory has an exact version of the first half: fluctuations shift the mass of a φ⁴ field (the thermal / Hartree mass).
+For his potential, with s² = the field's fluctuation variance, mean-field gives: inside a domain mass² = 2a − 6b s² (noise
+**lightens** it); in the symmetric sea at φ = 0, mass² = −a + 3b s² (noise **creates** it). And his clock 1/(1 + κφ²) is convex
+inside a domain and concave near 0, so noise should **speed** the clock in a domain and **slow** it in the sea.
+
+Langevin PhiWorld (his equations and update, 64 × 64 periodic, damping 0.05, white force noise σ), started as one + domain.
+Mass = frequency of the uniform (k = 0) mode from its spectrum; clock = mean c² over the field.
+
+| σ (κ = 5) | mean φ | s² | **mass** (k = 0 freq.) | Hartree | **clock ⟨c²⟩** |
+|---|---|---|---|---|---|
+| 0 | +2.24 (domain) | 0 | 1.414 | 1.414 | 0.039 |
+| 0.1 | +2.21 | 0.04 | 1.398 | 1.397 | 0.040 |
+| 0.2 | +2.14 | 0.18 | 1.327 | 1.337 | 0.048 |
+| 0.3 | +2.05 | 0.39 | 1.312 | 1.238 | 0.067 |
+| 0.4 | +1.95 | 0.72 | 1.257 | 1.068 | 0.097 |
+| **0.5** | +1.34 (melting) | 2.55 | **0.204** | — | 0.143 |
+| 1.0 | 0 (sea) | 5.8 | 0.793 | 1.571 | 0.167 |
+| 2.0 | 0 | 10.4 | 1.445 | 2.292 | 0.129 |
+| 4.0 | 0 | 20.1 | 2.443 | 3.327 | 0.095 |
+| 6.0 | 0 | 29.8 | 3.409 | 4.106 | 0.079 |
+
+κ = 0 (no clock rule) shows the same mass pattern (domain 1.41 → 1.05 at σ = 0.5; sea 0.68 → 2.88 from σ = 1 to 6); its
+domain melts later (between σ = 0.5 and 1.0, vs 0.4–0.5 at κ = 5).
+
+- **In the sea, his intuition holds.** Once noise has melted the domains (φ̄ = 0), more noise means more mass: 0.79 → 3.41 as σ
+  goes 1 → 6, the trend Hartree predicts (measured 15–50% below the crude mean-field number). And the clock slows: ⟨c²⟩ halves,
+  0.167 → 0.079.
+- **Inside a domain — what PhiWorld calls a particle — it is the opposite.** Noise makes the domain lighter (1.414 → 1.26) and
+  its clock 2.5× faster (0.039 → 0.097), until it melts.
+- **Time slows most at the melting point.** At σ = 0.5 (κ = 5) the mass drops to 0.20: the slowest mode almost stops. This is
+  critical slowing down — the field takes longest to forget exactly where noise is about to dissolve its structure. That, not a
+  "genesis parameter", is the real critical point in his field.
+- The 2025 document around this idea is AI-written and mostly unsupported (classical Bell violation, exponential speed-ups,
+  fabricated-looking citations). The one physical claim in it that this repo can test is above.
+
 ## Ledger — corrections made on the way (kept on purpose)
 
 1. The morning scratch run reported 83% / 75% (macro / sub). It trained and tested the decoder on the same
@@ -776,6 +815,8 @@ been checked against the literature beyond this list — treat as unverified nov
   (0.63); rich-get-richer canalization does not help and, strong, smooths the fringes away and kills transmission.
 - **G11:** NCM's corruption trick (write under simulated drift) removes none of the drift damage on Sol's medium and costs clean
   accuracy; the interface homeostat removes 97–99%. Content that cannot sense the drift cannot be pre-hardened against it.
+- **G12:** his Noise Sea claim, measured in PhiWorld: noise creates mass and slows the clock in the melted sea, but lightens a
+  domain and speeds its clock; the slowest mode nearly stops at the noise level where domains melt (critical slowing down).
 
 ## Next gates
 
@@ -814,6 +855,7 @@ gates/g9_physical_teacher.py     G9a (python ... a) and G9b (python ... b, 5 arm
 gates/g10a_hologram_or_wires.py  G10a (coarse / fine decomposition of the saved media, omega sweep)
 gates/g10b_canalization.py       G10b (settled gradient + conservative material flow, ~40 min on 2 cores)
 gates/g11_noise_aware_vs_homeostat.py  G11 (on the G4 port of Sol's medium; ~1 h single core)
+gates/g12_noise_sea.py           G12 (Langevin PhiWorld, noise ladder; ~3 min)
 results/*.json          raw numbers for every gate
 ```
 
